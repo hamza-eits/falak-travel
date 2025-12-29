@@ -26,7 +26,7 @@
 
                         @endif
 
-                        <form action="{{ route('comparison-reports.rofit-loss') }}" class="row g-3 align-items-end">
+                        <form action="{{ URL('comparison-reports/profit-loss') }}" class="row g-3 align-items-end">
 
                            
 
