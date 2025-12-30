@@ -10,84 +10,58 @@
         <div class="page-content">
             <div class="container-fluid">
 
-                <div class="row">
-                    <div class="col-12">
-                        @if (count($errors) > 0)
-                            <div>
-                                <div class="alert alert-danger p-1   border-3">
-                                    <p class="font-weight-bold"> There were some problems with your input.</p>
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
+                <div class="col-12">
+                
+                    @include('comparison_reports.profit_loss.partials.form')
 
-                        @endif
-
-                        <form action="{{ URL('comparison-reports/profit-loss') }}" class="row g-3 align-items-end">
-
-                           
-
-                            <!-- From Date -->
-                            <div class="col-auto">
-                                <label class="form-label" for="fromDate">From Date</label>
-                                <input type="date" name="fromDate" value="{{ old('fromDate',request()->fromDate)}}" class="form-control">
-                            </div>
-
-                            <!-- To Date -->
-                            <div class="col-auto">
-                                <label class="form-label" for="toDate">To Date</label>
-                                <input type="date" name="toDate" value="{{ old('toDate',request()->toDate)}}" class="form-control">
-                            </div>
-                            
-                            <div class="col-auto">
-                                 <label class="form-label">Compare Based on Period/Year</label>
-                                <select id="comparedType" name="comparedType" class="form-select">
-                                    <option value="period">Previous Period(s)</option>
-                                    <option value="year">Previous Year(s)</option>
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                <label class="form-label">Number of Period/Year(s)</label>
-                                <select id="comparedCount" name="comparedCount" class="form-select">
-                                    @for ($i=1 ; $i < 11; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            
-
-                            <!-- Submit Button -->
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-
-                        </form>
-                    </div>
+                </div>
 
                    
-                </div>
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body">
-                           <table class="table table-bordered table-hover table-sm text-wrap">
-                            <thead class="table-dark">
-                                <tr>
-                                    {{-- <th>Expense ID</th> --}}
-                                  
-                            </thead>
-                            <tbody>
-                                {{-- @foreach($data['expenses'] as $expense) --}}
-                                <tr>
-                                    {{-- <td>{{ $expense->ExpenseMasterID }}</td> --}}
-                                    
+                
+                <h4 class="my-4">Revenue Comparison Report</h4>
+                <div class="card mb-4">
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-striped mb-0">
+                            <thead>
+                                
+                                 <tr>
+                                    <th>Accounts</th>
+                                    @foreach($dates as $date)
+                                        <th class="text-center"> {{ $date['label'] }}</th>
+                                    @endforeach
                                 </tr>
-                                {{-- @endforeach --}}
+
+                            </thead>
+
+                            <tbody>
+                                @forelse($revenue as $level2)
+                                    <tr>
+                                        <th>{{ $level2['level2Name'] }}</th>
+                                        @foreach($dates as $date)
+                                            <th class="text-center"></th>
+                                        @endforeach
+                                    </tr>
+
+                                    
+
+                                    @foreach($level2['level3'] as $level3)
+                                        <tr>
+                                            <td style="padding-left: 30px;">{{ $level3['name'] }}</td>
+
+                                            @foreach($level3['data'] as $data)
+                                                <td class="text-end fw-bold">
+                                                    {{ number_format($data['cr'] - $data['dr'], 2) }}
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+
+                                @endforeach
+
                             </tbody>
                         </table>
-                        </div>
+
+                      
                     </div>
                 </div>
             </div>

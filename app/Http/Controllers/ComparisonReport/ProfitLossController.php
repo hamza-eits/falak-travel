@@ -16,201 +16,124 @@ class ProfitLossController extends Controller
 
     public function show(Request $request)
     {
-        
-        
         $fromDate = $request->fromDate ?? date('Y-m-d');
         $toDate = $request->toDate ?? date('Y-m-d');
         $comparedType = $request->comparedType ?? 'period';
         $comparedCount = $request->comparedCount ?? 1;
 
-        $dates = [];
-        
-        if($comparedType == 'period')
-        {
-            $dates = $this->comparedMonthDates($fromDate,$toDate,$comparedCount);
+        // Generate comparison dates
+        if ($comparedType === 'year') {
+            $dates = $this->comparedYearDates($fromDate, $toDate, $comparedCount);
+        } else {
+            $dates = $this->comparedMonthDates($fromDate, $toDate, $comparedCount);
         }
 
-        if($comparedType == 'year')
-        {
-            $dates = $this->comparedYearDates($fromDate,$toDate,$comparedCount);
-        }
-
-        //Level 2 Accounts
+        // Level 2 Revenue Accounts
         $revenueAccounts = DB::table('chartofaccount')
-        ->where('CODE','R')
-        ->where('Level',2)
-        ->get();
-
-        $revenue = [];
-        
-        
-        foreach($dates as $date)
-        {
-
-            //Accessing Each Level 2 , child Level 3 
-            foreach($revenueAccounts as $level2)
-            {
-                $level3Accounts = DB::table('chartofaccount')
-                ->where('CODE','R')
-                ->where('Level',3)
-                ->where('L2', $level2->ChartOfAccountID)
-                ->get(); 
-
-                $level2Data = [];
-                $level3Data = [];
-                foreach($level3Accounts as $level3)
-                {
-                    $level3Data[] = [
-                        'name' => $level3->ChartOfAccountName,
-                        'dr' => DB::table('journal')
-                            ->where('ChartOfAccountID',$level3->ChartOfAccountID)
-                            ->whereBetween('Date',[$date['fromDate'], $date['toDate']])
-                            ->sum('Dr'),
-                        'cr' => DB::table('journal')
-                            ->where('ChartOfAccountID',$level3->ChartOfAccountID)
-                            ->whereBetween('Date',[$date['fromDate'], $date['toDate']])
-                            ->sum('Cr'),
-                    ];
-                }
-                $level2Data = [
-                    'level2Name' => $level2->ChartOfAccountName,
-                    'level3Data' => $level3Data,
-                ];
-
-
-                $revenue [] = [
-                    'date' => $date['fromDate'],
-                    'data' => $level2Data
-                ];
-
-            }
-
-
-            return response()->json($revenue);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //Accessing Each Level 2 , child Level 3 
-        foreach($revenueAccounts as $level2)
-        {
-            $level3Data = [];
-            
-            $level3Accounts = DB::table('chartofaccount')
-            ->where('CODE','R')
-            ->where('Level',3)
-            ->where('L2', $level2->ChartOfAccountID)
+            ->where('CODE', 'R')
+            ->where('Level', 2)
             ->get();
 
-            foreach($level3Accounts as $level3)
-            {
-                $data = [];
-                foreach($dates as $date)
-                {
-                    $data[] = [
-                        'name' => $level3->ChartOfAccountName,
-                        'dr' => DB::table('journal')
-                            ->where('ChartOfAccountID',$level3->ChartOfAccountID)
-                            ->whereBetween('Date',[$date['fromDate'], $date['toDate']])
-                            ->sum('Dr'),
-                        'cr' => DB::table('journal')
-                            ->where('ChartOfAccountID',$level3->ChartOfAccountID)
-                            ->whereBetween('Date',[$date['fromDate'], $date['toDate']])
-                            ->sum('Cr'),
-                    ];
-                }
-            }
+        $revenue = [];
 
-            $revenue['level3Data'] = $data;
-        }
+        foreach ($revenueAccounts as $level2) {
 
-        $revenue[] = [
+            // Reset Level 2 container
+            $level2Data = [
                 'level2Name' => $level2->ChartOfAccountName,
-                'level3Data' => ''
+                'level3' => []
             ];
 
+            // Level 3 Accounts
+            $level3Accounts = DB::table('chartofaccount')
+                ->where('CODE', 'R')
+                ->where('Level', 3)
+                ->where('L2', $level2->ChartOfAccountID)
+                ->get();
 
-        return response()->json($revenue);
+            foreach ($level3Accounts as $level3) {
 
-        return view('comparison_reports.profit_loss.show');
+                $level3Data = [];
+
+                foreach ($dates as $date) {
+
+                    $journal = DB::table('journal')
+                        ->where('ChartOfAccountID', $level3->ChartOfAccountID)
+                        ->whereBetween('Date', [$date['fromDate'], $date['toDate']])
+                        ->selectRaw('SUM(Dr) as dr, SUM(Cr) as cr')
+                        ->first();
+
+                    $level3Data[] = [
+                        'label' => $date['label'],
+                        'dr' => $journal->dr ?? 0,
+                        'cr' => $journal->cr ?? 0,
+                    ];
+                }
+
+                //check balance if whole date range is zero then dont add that
+                /*
+                $totalBalance = collect($level3Data)->sum(function ($item) {
+                    return $item['cr'] - $item['dr'];
+                });
+
+                if($totalBalance != 0)
+                {
+                    $level2Data['level3'][] = [
+                        'name' => $level3->ChartOfAccountName,
+                        'data' => $level3Data
+                    ];
+                }
+                */
+
+            }
+            $revenue[] = $level2Data;
+        }
+
+        // return response()->json($revenue);
+        return view('comparison_reports.profit_loss.show', compact(
+            'fromDate',
+            'toDate',
+            'comparedType',
+            'comparedCount',
+            'revenue',
+            'dates'
+        ));
+
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function comparedMonthDates($fromDate,$toDate,$comparedCount)
+    public function comparedMonthDates($fromDate, $toDate, $comparedCount)
     {
         $dates = [];
-        for($i = 0; $i < $comparedCount; $i++)
-        {
+
+        for ($i = 0; $i < $comparedCount; $i++) {
+
+            $from = Carbon::parse($fromDate)->subMonthsNoOverflow($i);
+            $to   = Carbon::parse($toDate)->subMonthsNoOverflow($i);
+
             $dates[] = [
-                'fromDate' => Carbon::parse($fromDate)->subMonthsNoOverflow($i)->format('Y-m-d'),
-                'toDate' => Carbon::parse($toDate)->subMonthsNoOverflow($i)->format('Y-m-d'),
+                'label'    => $from->format('F Y'), // Month Name + Year
+                'fromDate' => $from->format('Y-m-d'),
+                'toDate'   => $to->format('Y-m-d'),
             ];
         }
 
         return $dates;
     }
-    public function comparedYearDates($fromDate,$toDate,$comparedCount)
+
+    public function comparedYearDates($fromDate, $toDate, $comparedCount)
     {
         $dates = [];
-        for($i = 0; $i < $comparedCount; $i++)
-        {
+
+        for ($i = 0; $i < $comparedCount; $i++) {
+
+            $from = Carbon::parse($fromDate)->subYearsNoOverflow($i);
+            $to   = Carbon::parse($toDate)->subYearsNoOverflow($i);
+
             $dates[] = [
-                'fromDate' => Carbon::parse($fromDate)->subYearsNoOverflow($i)->format('Y-m-d'),
-                'toDate' => Carbon::parse($toDate)->subYearsNoOverflow($i)->format('Y-m-d'),
+                'label'    => $from->format('Y'), // Year label
+                'fromDate' => $from->format('Y-m-d'),
+                'toDate'   => $to->format('Y-m-d'),
             ];
         }
 
