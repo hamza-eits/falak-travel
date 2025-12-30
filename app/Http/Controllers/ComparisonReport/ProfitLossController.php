@@ -85,6 +85,11 @@ class ProfitLossController extends Controller
                 }
                 */
 
+                $level2Data['level3'][] = [
+                    'name' => $level3->ChartOfAccountName,
+                    'data' => $level3Data
+                ];
+
             }
             $revenue[] = $level2Data;
         }
