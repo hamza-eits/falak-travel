@@ -71,7 +71,7 @@ class ProfitLossController extends Controller
                 }
 
                 //check balance if whole date range is zero then dont add that
-                /*
+                
                 $totalBalance = collect($level3Data)->sum(function ($item) {
                     return $item['cr'] - $item['dr'];
                 });
@@ -83,12 +83,13 @@ class ProfitLossController extends Controller
                         'data' => $level3Data
                     ];
                 }
-                */
-
+                
+                /*
                 $level2Data['level3'][] = [
                     'name' => $level3->ChartOfAccountName,
                     'data' => $level3Data
                 ];
+                */
 
             }
             $revenue[] = $level2Data;
