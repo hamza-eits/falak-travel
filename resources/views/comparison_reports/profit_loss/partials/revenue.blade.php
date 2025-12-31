@@ -1,67 +1,69 @@
  <div class="card mb-4">
     <div class="card-body p-0">
-        <table class="table table-bordered mb-0 table-sm">
-            <thead>
-                
-                    <tr>
-                    <th>Accounts</th>
-                    @foreach($dates as $date)
-                        <th class="text-center"> {{ $date['label'] }}</th>
-                    @endforeach
-                </tr>
-
-            </thead>
-
-            <tbody>
-                @forelse($revenue as $level2)
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0 table-sm">
+                <thead>
                     
-                {{-- Initialize totals array --}}
-                    @php
-                        $totals = array_fill(0, count($dates), 0);
-                    @endphp
-                    
-                    <tr>
-                        <th class="text-start">{{ $level2['level2Name'] }}</th>
+                        <tr>
+                        <th style="width: 400px">Accounts</th>
                         @foreach($dates as $date)
-                            <th class="text-center"></th>
+                            <th style="width: 100px" class="text-center"> {{ $date['label'] }}</th>
                         @endforeach
                     </tr>
 
-                    
+                </thead>
 
-                    @foreach($level2['level3'] as $level3)
+                <tbody>
+                    @forelse($revenue as $level2)
+                        
+                    {{-- Initialize totals array --}}
+                        @php
+                            $totals = array_fill(0, count($dates), 0);
+                        @endphp
+                        
                         <tr>
-                            <td class="text-start" style="padding-left: 30px;">{{ $level3['name'] }}</td>
+                            <th class="text-start">{{ $level2['level2Name'] }}</th>
+                            @foreach($dates as $date)
+                                <th class="text-center"></th>
+                            @endforeach
+                        </tr>
 
-                            @foreach($level3['data'] as $i => $data)
-                                @php
-                                    $amount = $data['cr'] - $data['dr'];
-                                    $totals[$i] += $amount;
-                                @endphp
+                        
+
+                        @foreach($level2['level3'] as $level3)
+                            <tr>
+                                <td class="text-start" style="padding-left: 30px;">{{ $level3['name'] }}</td>
+
+                                @foreach($level3['data'] as $i => $data)
+                                    @php
+                                        $amount = $data['cr'] - $data['dr'];
+                                        $totals[$i] += $amount;
+                                    @endphp
+                                    <td class="text-end">
+                                        {{ number_format($amount, 2) }}
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+
+                        {{-- Total row per level2 --}}
+                        <tr class="table-light fw-bold">
+                            <td>{{ $level2['level2Name'] }} Total</td>
+                            @foreach($totals as $total)
                                 <td class="text-end">
-                                    {{ number_format($amount, 2) }}
+                                    {{ number_format($total, 2) }}
                                 </td>
                             @endforeach
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="{{ count($dates) + 1 }}" class="text-center">No data available</td>
+                        </tr>
+                    @endforelse
+                    
 
-                    {{-- Total row per level2 --}}
-                    <tr class="table-light fw-bold">
-                        <td>{{ $level2['level2Name'] }} Total</td>
-                        @foreach($totals as $total)
-                            <td class="text-end">
-                                {{ number_format($total, 2) }}
-                            </td>
-                        @endforeach
-                    </tr>
-                 @empty
-                    <tr>
-                        <td colspan="{{ count($dates) + 1 }}" class="text-center">No data available</td>
-                    </tr>
-                @endforelse
-                
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

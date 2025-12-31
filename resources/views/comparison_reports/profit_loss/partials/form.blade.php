@@ -6,20 +6,21 @@
         <label class="form-label" for="dateRangeSelector">Date Range</label>
         <select id="dateRangeSelector" name="dateRangeSelector" class="form-select">
             <option value="">Select Date Range</option>
-            <option value="Today">Today</option>
-            <option value="Yesterday">Yesterday</option>
-            <option value="This Week">This Week</option>
-            <option value="This Month">This Month</option>
-            <option value="This Quarter">This Quarter</option>
-            <option value="This Year">This Year</option>
-            <option value="Year to Date">Year to Date</option>
-            <option value="Previous Week">Previous Week</option>
-            <option value="Previous Month">Previous Month</option>
-            <option value="Previous Quarter">Previous Quarter</option>
-            <option value="Previous Year">Previous Year</option>
-            <option value="Custom Range">Custom Range</option>
+            <option value="Today" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Today' ? 'selected' : '' }}>Today</option>
+            <option value="Yesterday" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Yesterday' ? 'selected' : '' }}>Yesterday</option>
+            <option value="This Week" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Week' ? 'selected' : '' }}>This Week</option>
+            <option value="This Month" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Month' ? 'selected' : '' }}>This Month</option>
+            <option value="This Quarter" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Quarter' ? 'selected' : '' }}>This Quarter</option>
+            <option value="This Year" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Year' ? 'selected' : '' }}>This Year</option>
+            <option value="Year to Date" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Year to Date' ? 'selected' : '' }}>Year to Date</option>
+            <option value="Previous Week" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Week' ? 'selected' : '' }}>Previous Week</option>
+            <option value="Previous Month" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Month' ? 'selected' : '' }}>Previous Month</option>
+            <option value="Previous Quarter" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Quarter' ? 'selected' : '' }}>Previous Quarter</option>
+            <option value="Previous Year" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Year' ? 'selected' : '' }}>Previous Year</option>
+            <option value="Custom Range" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Custom Range' ? 'selected' : '' }}>Custom Range</option>
         </select>
     </div>
+
     <div class="col-auto">
         <label class="form-label" for="fromDate">From Date</label>
         <input type="date"

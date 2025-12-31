@@ -11,7 +11,7 @@
             <div class="container-fluid">
 
                 <div class="row justify-content-center">
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         @include('comparison_reports.profit_loss.partials.form')
                     </div>
                 </div>
