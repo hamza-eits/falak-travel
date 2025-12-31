@@ -3,6 +3,24 @@
 
     <!-- From Date -->
     <div class="col-auto">
+        <label class="form-label" for="dateRangeSelector">Date Range</label>
+        <select id="dateRangeSelector" name="dateRangeSelector" class="form-select">
+            <option value="">Select Date Range</option>
+            <option value="Today">Today</option>
+            <option value="Yesterday">Yesterday</option>
+            <option value="This Week">This Week</option>
+            <option value="This Month">This Month</option>
+            <option value="This Quarter">This Quarter</option>
+            <option value="This Year">This Year</option>
+            <option value="Year to Date">Year to Date</option>
+            <option value="Previous Week">Previous Week</option>
+            <option value="Previous Month">Previous Month</option>
+            <option value="Previous Quarter">Previous Quarter</option>
+            <option value="Previous Year">Previous Year</option>
+            <option value="Custom Range">Custom Range</option>
+        </select>
+    </div>
+    <div class="col-auto">
         <label class="form-label" for="fromDate">From Date</label>
         <input type="date"
             name="fromDate"
@@ -57,3 +75,74 @@
     </div>
 
 </form>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+
+<script>
+
+        $(document).ready(function () {
+            // Handle the date range selection
+            $('#dateRangeSelector').on('change', function () {
+                let range = $(this).val();
+                let fromDate = null;
+                let toDate = null;
+
+                switch (range) {
+                    case "Today":
+                        fromDate = moment().format("YYYY-MM-DD");
+                        toDate = moment().format("YYYY-MM-DD");
+                        break;
+                    case "Yesterday":
+                        fromDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+                        toDate = fromDate;
+                        break;
+                    case "This Week":
+                        fromDate = moment().startOf("week").format("YYYY-MM-DD");
+                        toDate = moment().endOf("week").format("YYYY-MM-DD");
+                        break;
+                    case "This Month":
+                        fromDate = moment().startOf("month").format("YYYY-MM-DD");
+                        toDate = moment().endOf("month").format("YYYY-MM-DD");
+                        break;
+                    case "This Quarter":
+                        fromDate = moment().startOf("quarter").format("YYYY-MM-DD");
+                        toDate = moment().endOf("quarter").format("YYYY-MM-DD");
+                        break;
+                    case "This Year":
+                        fromDate = moment().startOf("year").format("YYYY-MM-DD");
+                        toDate = moment().endOf("year").format("YYYY-MM-DD");
+                        break;
+                    case "Year to Date":
+                        fromDate = moment().startOf("year").format("YYYY-MM-DD");
+                        toDate = moment().format("YYYY-MM-DD");
+                        break;
+                    case "Previous Week":
+                        fromDate = moment().subtract(1, "week").startOf("week").format("YYYY-MM-DD");
+                        toDate = moment().subtract(1, "week").endOf("week").format("YYYY-MM-DD");
+                        break;
+                    case "Previous Month":
+                        fromDate = moment().subtract(1, "month").startOf("month").format("YYYY-MM-DD");
+                        toDate = moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD");
+                        break;
+                    case "Previous Quarter":
+                        fromDate = moment().subtract(1, "quarter").startOf("quarter").format("YYYY-MM-DD");
+                        toDate = moment().subtract(1, "quarter").endOf("quarter").format("YYYY-MM-DD");
+                        break;
+                    case "Previous Year":
+                        fromDate = moment().subtract(1, "year").startOf("year").format("YYYY-MM-DD");
+                        toDate = moment().subtract(1, "year").endOf("year").format("YYYY-MM-DD");
+                        break;
+                    case "Custom Range":
+                        fromDate = ""; // Let user manually set dates
+                        toDate = "";
+                        break;
+                }
+
+                // Populate the date fields
+                $('#fromDate').val(fromDate);
+                $('#toDate').val(toDate);
+            });
+        });
+    </script>

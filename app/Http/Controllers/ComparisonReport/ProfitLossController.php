@@ -18,8 +18,9 @@ class ProfitLossController extends Controller
     {
         $fromDate = $request->fromDate ?? date('Y-m-d');
         $toDate = $request->toDate ?? date('Y-m-d');
-        $comparedType = $request->comparedType ?? 'period';
+        $comparedType = $request->comparedType ?? 'custom';
         $comparedCount = $request->comparedCount ?? 1;
+        $dateRangeSelector = $request->dateRangeSelector ?? null;
 
         // Generate comparison dates
         if ($comparedType === 'year') {
@@ -28,72 +29,9 @@ class ProfitLossController extends Controller
             $dates = $this->comparedMonthDates($fromDate, $toDate, $comparedCount);
         }
 
-        // Level 2 Revenue Accounts
-        $revenueAccounts = DB::table('chartofaccount')
-            ->where('CODE', 'R')
-            ->where('Level', 2)
-            ->get();
 
-        $revenue = [];
-
-        foreach ($revenueAccounts as $level2) {
-
-            // Reset Level 2 container
-            $level2Data = [
-                'level2Name' => $level2->ChartOfAccountName,
-                'level3' => []
-            ];
-
-            // Level 3 Accounts
-            $level3Accounts = DB::table('chartofaccount')
-                ->where('CODE', 'R')
-                ->where('Level', 3)
-                ->where('L2', $level2->ChartOfAccountID)
-                ->get();
-
-            foreach ($level3Accounts as $level3) {
-
-                $level3Data = [];
-
-                foreach ($dates as $date) {
-
-                    $journal = DB::table('journal')
-                        ->where('ChartOfAccountID', $level3->ChartOfAccountID)
-                        ->whereBetween('Date', [$date['fromDate'], $date['toDate']])
-                        ->selectRaw('SUM(Dr) as dr, SUM(Cr) as cr')
-                        ->first();
-
-                    $level3Data[] = [
-                        'label' => $date['label'],
-                        'dr' => $journal->dr ?? 0,
-                        'cr' => $journal->cr ?? 0,
-                    ];
-                }
-
-                //check balance if whole date range is zero then dont add that
-                
-                $totalBalance = collect($level3Data)->sum(function ($item) {
-                    return $item['cr'] - $item['dr'];
-                });
-
-                if($totalBalance != 0)
-                {
-                    $level2Data['level3'][] = [
-                        'name' => $level3->ChartOfAccountName,
-                        'data' => $level3Data
-                    ];
-                }
-                
-                /*
-                $level2Data['level3'][] = [
-                    'name' => $level3->ChartOfAccountName,
-                    'data' => $level3Data
-                ];
-                */
-
-            }
-            $revenue[] = $level2Data;
-        }
+        $revenue = $this->generateReport($dates,'R');
+        $expense = $this->generateReport($dates,'E');
 
         // return response()->json($revenue);
         return view('comparison_reports.profit_loss.show', compact(
@@ -102,9 +40,116 @@ class ProfitLossController extends Controller
             'comparedType',
             'comparedCount',
             'revenue',
-            'dates'
+            'expense',
+            'dates',
+            'dateRangeSelector'
         ));
 
+    }
+
+
+    public function generateReport($dates,$code)
+    {
+        // Level 2  Accounts
+        $level2Accounts = $this->getLevel2Account($code);
+
+        $finalData = [];
+
+
+        foreach($level2Accounts as $level2)
+        {
+            // Reset Level 2 container
+            $level2Data = [
+                'level2Name' => $level2->ChartOfAccountName,
+                'level3' => []
+            ];
+
+            $level2Balance = 0;
+
+            // Level 3 Accounts
+            $level3Accounts = $this->getLevel2ChildAccounts($level2->ChartOfAccountID,$code);
+
+
+            foreach ($level3Accounts as $level3) {
+                
+                $level3Data = [];
+
+                 foreach ($dates as $date) {
+
+                    $journal = $this->getAccountDebitAndCredit($level3->ChartOfAccountID,$date['fromDate'],$date['toDate']);
+
+                    $level3Data[] = [
+                        'label' => $date['label'],
+                        'dr' => $journal->dr ?? 0,
+                        'cr' => $journal->cr ?? 0,
+                    ];
+                }
+
+                //check balance if whole date range is zero then dont add that  
+                $level3Balance = $this->getBalanceAmount($level3Data);
+
+                $level2Balance += $level3Balance;
+
+                if($level3Balance != 0)
+                {
+                    $level2Data['level3'][] = [
+                        'name' => $level3->ChartOfAccountName,
+                        'data' => $level3Data
+                    ];
+                }
+                
+            }
+
+            if($level2Balance != 0)
+            {
+                $finalData[] = $level2Data;
+            }
+
+        }
+
+        return $finalData;
+
+
+    }
+
+    public function getLevel2Balance(array $level2Data)
+    {
+        return response()->json(collect($level2Data));
+        
+    }
+
+    public function getBalanceAmount(array $level3Data)
+    {
+        return collect($level3Data)->sum(function ($item) {
+            return $item['cr'] - $item['dr'];
+        });
+    }
+
+    public function getLevel2Account($code)
+    {
+        return  DB::table('chartofaccount')
+            ->where('CODE', $code)
+            ->where('Level', 2)
+            ->get();
+    }
+
+    public function getLevel2ChildAccounts($parent_coa_id, $code)
+    {
+        return DB::table('chartofaccount')
+            ->where('CODE', $code)
+            ->where('Level', 3)
+            ->where('L2', $parent_coa_id)
+            ->get();
+
+    }
+
+    public function getAccountDebitAndCredit($coa_id,$startDate,$endDate)
+    {
+        return DB::table('journal')
+            ->where('ChartOfAccountID', $coa_id)
+            ->whereBetween('Date', [$startDate, $endDate])
+            ->selectRaw('SUM(Dr) as dr, SUM(Cr) as cr')
+            ->first();
     }
 
 
