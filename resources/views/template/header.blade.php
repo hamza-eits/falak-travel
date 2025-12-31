@@ -139,7 +139,7 @@
                             <button type="button" class="  btn btn-outline-light dropdown-toggle"
                                 data-bs-toggle="dropdown" aria-expanded="false"><i
                                     class=" text-success far fa-bookmark
-                                        font-size-16 align-middle me-2"></i>Comparsion Reports
+                                        font-size-16 align-middle me-2"></i>Comparison Reports
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu" style="margin: 0px;">
 
