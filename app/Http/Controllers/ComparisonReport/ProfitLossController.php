@@ -182,7 +182,7 @@ class ProfitLossController extends Controller
             $to   = Carbon::parse($toDate)->subYearsNoOverflow($i);
 
             $dates[] = [
-                'label'    => $from->format('Y'), // Year label
+                'label'    => $from->format('M Y'), // Year label
                 'fromDate' => $from->format('Y-m-d'),
                 'toDate'   => $to->format('Y-m-d'),
             ];
