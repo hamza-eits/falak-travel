@@ -2,7 +2,7 @@
     class="row g-3 align-items-end">
 
     <!-- From Date -->
-    <div class="col-auto">
+    <div class="col-md-2">
         <label class="form-label" for="dateRangeSelector">Date Range</label>
         <select id="dateRangeSelector" name="dateRangeSelector" class="form-select">
             <option value="">Select Date Range</option>
@@ -21,7 +21,7 @@
         </select>
     </div>
 
-    <div class="col-auto">
+    <div class="col-md-2">
         <label class="form-label" for="fromDate">From Date</label>
         <input type="date"
             name="fromDate"
@@ -31,7 +31,7 @@
     </div>
 
     <!-- To Date -->
-    <div class="col-auto">
+    <div class="col-md-2">
         <label class="form-label" for="toDate">To Date</label>
         <input type="date"
             name="toDate"
@@ -41,7 +41,7 @@
     </div>
 
     <!-- Compare Type -->
-    <div class="col-auto">
+    <div class="col-md-2">
         <label class="form-label">Compare Based on</label>
         <select name="comparedType" class="form-select">
             <option value="period"
@@ -56,7 +56,7 @@
     </div>
 
     <!-- Compare Count -->
-    <div class="col-auto">
+    <div class="col-md-2">
         <label class="form-label">Number of Period/Year(s)</label>
         <select name="comparedCount" class="form-select">
             @for ($i = 1; $i <= 10; $i++)
@@ -69,8 +69,8 @@
     </div>
 
     <!-- Submit -->
-    <div class="col-auto">
-        <button type="submit" class="btn btn-primary">
+    <div class="col-md-2 text-end">
+        <button type="submit" class="btn btn-primary btn-block">
             Submit
         </button>
     </div>
