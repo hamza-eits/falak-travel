@@ -4,8 +4,8 @@
              <table class="table table-bordered mb-0 table-sm">
                  <thead>
 
-                     <tr>
-                         <th style="width: 400px">Accounts</th>
+                     <tr class="bg-dark text-white">
+                        <th class="text-start" style="width: 400px">ACCOUNTS</th>
                          @foreach ($dates as $date)
                              <th style="width: 100px" class="text-center"> {{ $date['label'] }}</th>
                          @endforeach

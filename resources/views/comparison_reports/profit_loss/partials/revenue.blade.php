@@ -2,10 +2,10 @@
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-bordered mb-0 table-sm">
-                <thead>
+                <thead class="bg-dark text-white">
                     
-                        <tr>
-                        <th style="width: 400px">Accounts</th>
+                    <tr>
+                        <th class="text-start" style="width: 400px">ACCOUNTS</th>
                         @foreach($dates as $date)
                             <th style="width: 100px" class="text-center"> {{ $date['label'] }}</th>
                         @endforeach
