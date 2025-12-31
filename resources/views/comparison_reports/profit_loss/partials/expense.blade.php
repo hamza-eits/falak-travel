@@ -36,7 +36,7 @@
 
                                  @foreach ($level3['data'] as $i => $data)
                                      @php
-                                         $amount = $data['cr'] - $data['dr'];
+                                         $amount = $data['dr'] - $data['cr'];
                                          $totals[$i] += $amount;
                                      @endphp
                                      <td class="text-end ">
