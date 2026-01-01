@@ -12,7 +12,12 @@
 
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                        @include('comparison_reports.profit_loss.partials.form')
+                         <form action="{{ url('comparison-reports/profit-loss') }}" method="GET" class="row g-3 align-items-end">
+
+                            @include('comparison_reports.search')
+
+                        </form>
+
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -21,7 +26,7 @@
                         <div class="card mb-4">
                             <div class="card-body p-0">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered mb-0 table-sm">
+                                    <table class="table table-sm table-bordered text-nowrap">
                                         <thead>
                                             <tr class="bg-dark text-white">
                                                 <th class="text-start" style="width: 400px">ACCOUNTS</th>
@@ -86,7 +91,7 @@
                         <div class="card mb-4">
                             <div class="card-body p-0">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered mb-0 table-sm">
+                                    <table class="table table-sm table-bordered text-nowrap">
                                         <thead>
                                             <tr class="bg-dark text-white">
                                                 <th class="text-start" style="width: 400px">ACCOUNTS</th>
@@ -156,7 +161,7 @@
                         <div class="card mb-4">
                             <div class="card-body p-0">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered mb-0 table-sm">
+                                    <table class="table table-sm table-bordered text-nowrap">
                                         <thead>
                                             <tr class="bg-dark text-white">
                                                 <th class="text-start" style="width: 400px">Profit / Loss</th>
