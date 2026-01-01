@@ -12,31 +12,32 @@
 */
 
 
-use Illuminate\Support\Facades\DB;
-
 use App\Http\Controllers\User;
- use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ChartOfAccount;
-
-// CRM CONTROLLERS
-use App\Http\Controllers\AjaxController;
 
 use App\Http\Controllers\Accounts;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\CampaignController;
+ use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+
+// CRM CONTROLLERS
+use App\Http\Controllers\AdminDashboard;
+
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\ChartOfAccount;
 use App\Http\Controllers\LeadController;
- use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StaffController;
+ use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UmrahController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\ComparisonReports\ItemWiseSaleController;
+use App\Http\Controllers\EstimateController;
 use App\Http\Controllers\SubServiceController;
 use App\Http\Controllers\LeadActivityController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\AdminDashboard;
-use App\Http\Controllers\EstimateController;
-use App\Http\Controllers\UmrahController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ComparisonReport\ProfitLossController;
+use App\Http\Controllers\ComparisonReports\ProfitLossController;
 
 Route::get('/search-party', function () {
     $search = request('q');
@@ -606,16 +607,18 @@ Route::post('/print', [UmrahController::class, 'printFromPrinter'])->name('print
  		 
  // END OF CRM LINKS
  
-Route::get('Backup', function () {
+// Route::get('Backup', function () {
 
-        /* php artisan migrate */
-        \Artisan::call('database:backup');
-        dd("Done");
-    });
+//         /* php artisan migrate */
+//         \Artisan::call('database:backup');
+//         dd("Done");
+//     });
     
     
     Route::get('/get-parties', [Accounts::class, 'getParties']);
 
+Route::prefix('comparison-reports')->name('comparison-reports.')->group(function(){
+	Route::get('profit-loss', [ProfitLossController::class, 'show'])->name('profit-loss');	
+	Route::get('item-wise-sales', [ItemWiseSaleController::class, 'show'])->name('item-wise-sales');	
 
-
-Route::get('comparison-reports/profit-loss', [ProfitLossController::class, 'show'])->name('comparison-reports.rofit-loss');	
+});

@@ -147,6 +147,10 @@
                                     href="{{ URL('/comparison-reports/profit-loss') }}">
                                     <i class="bx bx-plus "></i>Profit Loss</a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" 
+                                    href="{{ URL('/comparison-reports/item-wise-sales') }}">
+                                    <i class="bx bx-plus "></i>Item Wise Sales</a>
+                                {{-- <div class="dropdown-divider"></div> --}}
 
 
                                

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ComparisonReport;
+namespace App\Http\Controllers\ComparisonReports;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,9 +16,9 @@ class ProfitLossController extends Controller
 
     public function show(Request $request)
     {
-        $fromDate = $request->fromDate ?? date('Y-m-d');
-        $toDate = $request->toDate ?? date('Y-m-d');
-        $comparedType = $request->comparedType ?? 'custom';
+        $fromDate = $request->fromDate ?? date('Y-m-01');
+        $toDate   = $request->toDate   ?? date('Y-m-t');
+        $comparedType = $request->comparedType ?? 'This Month';
         $comparedCount = $request->comparedCount ?? 1;
         $dateRangeSelector = $request->dateRangeSelector ?? null;
 
