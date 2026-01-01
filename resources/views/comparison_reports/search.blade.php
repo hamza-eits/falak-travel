@@ -1,11 +1,12 @@
-<div class="card shadow-sm mb-3">
-    <div class="card-body">
+<div class="card shadow-sm mb-4 border-0">
+    <div class="card-body py-3">
+        <!-- Main Filter Row -->
         <div class="row g-3 align-items-end">
 
-            <!-- Date Range -->
-            <div class="col-lg-3 col-md-4">
-                <label class="form-label fw-semibold">Date Range</label>
-                <select id="dateRangeSelector" name="dateRangeSelector" class="form-select">
+            <!-- Date Range Selector -->
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <label class="form-label fw-semibold small text-muted">Date Range</label>
+                <select id="dateRangeSelector" name="dateRangeSelector" class="form-select form-select-sm">
                     <option value="Today" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Today' ? 'selected' : '' }}>Today</option>
                     <option value="Yesterday" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Yesterday' ? 'selected' : '' }}>Yesterday</option>
                     <option value="This Week" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Week' ? 'selected' : '' }}>This Week</option>
@@ -21,46 +22,65 @@
                 </select>
             </div>
 
-            <!-- From Date -->
-            <div class="col-lg-2 col-md-3 custom-range">
-                <label class="form-label fw-semibold">From</label>
-                <input type="date" name="fromDate" id="fromDate" class="form-control">
+            <!-- Custom From Date -->
+            <div class="col-lg-2 col-md-3 col-sm-6 custom-range">
+                <label class="form-label fw-semibold small text-muted">From</label>
+                <input type="date" name="fromDate" id="fromDate" class="form-control form-control-sm" value="{{ old('fromDate', $fromDate) }}">
             </div>
 
-            <!-- To Date -->
-            <div class="col-lg-2 col-md-3 custom-range">
-                <label class="form-label fw-semibold">To</label>
-                <input type="date" name="toDate" id="toDate" class="form-control">
+            <!-- Custom To Date -->
+            <div class="col-lg-2 col-md-3 col-sm-6 custom-range">
+                <label class="form-label fw-semibold small text-muted">To</label>
+                <input type="date" name="toDate" id="toDate" class="form-control form-control-sm" value="{{ old('toDate', $toDate) }}">
             </div>
 
-            <!-- Compare Type -->
-            <div class="col-lg-2 col-md-3">
-                <label class="form-label fw-semibold">Compare By</label>
-                <select name="comparedType" class="form-select">
-                    <option value="period">Previous Period</option>
-                    <option value="year">Previous Year</option>
+            <!-- Compare By -->
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <label class="form-label fw-semibold small text-muted">Compare</label>
+                <select name="comparedType" class="form-select form-select-sm">
+                    <option value="period" {{ old('comparedType', $comparedType) == 'period' ? 'selected' : '' }}>Previous Period</option>
+                    <option value="year" {{ old('comparedType', $comparedType) == 'year' ? 'selected' : '' }}>Previous Year</option>
                 </select>
             </div>
 
             <!-- Compare Count -->
-            <div class="col-lg-1 col-md-2">
-                <label class="form-label fw-semibold">Count</label>
-                <select name="comparedCount" class="form-select">
+            <div class="col-lg-1 col-md-2 col-sm-3">
+                <label class="form-label fw-semibold small text-muted">×</label>
+                <select name="comparedCount" class="form-select form-select-sm">
                     @for ($i = 1; $i <= 10; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ $i }}" {{ old('comparedCount', $comparedCount) == $i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
             </div>
 
-            <!-- Submit -->
-            <div class="col-lg-2 col-md-3 text-end">
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-funnel-fill me-1"></i> Apply
+            <!-- Apply Button -->
+            <div class="col-lg-2 col-md-4 col-sm-12 text-md-end">
+                <button type="submit" class="btn btn-primary btn-sm w-100 w-md-auto px-4">
+                    <i class="bi bi-funnel me-1"></i> Apply Filters
                 </button>
             </div>
-
         </div>
     </div>
+</div>
+
+<!-- Active Date Range Display (more prominent and better positioned) -->
+<div class="bg-light rounded-3 px-4 py-3 mb-1 d-flex flex-wrap align-items-center ">
+    <div class="d-flex align-items-center">
+        <span class="fw-semibold text-secondary me-2">Selected Period:</span>
+        <span class="badge bg-primary fs-6 px-3 py-2">
+            {{ date('d M Y', strtotime($fromDate)) }} → {{ date('d M Y', strtotime($toDate)) }}
+        </span>
+    </div>
+
+    @if($comparedType ?? false)
+        <div class="d-flex align-items-center">
+            <span class="fw-semibold text-secondary me-2">Comparing to:</span>
+            <span class="badge bg-secondary fs-6 px-3 py-2">
+                {{ ucfirst(str_replace('_', ' ', $comparedType)) }} 
+                @if(isset($comparedCount) && $comparedCount > 1) ×{{ $comparedCount }} @endif
+            </span>
+        </div>
+    @endif
 </div>
 
 
@@ -70,20 +90,26 @@
 <script>
 $(function () {
 
-    function toggleCustomRange() {
+  function toggleCustomRange() {
         if ($('#dateRangeSelector').val() === 'Custom Range') {
             $('.custom-range').removeClass('d-none');
+
+            let today = new Date();
+            let start = new Date(today.getFullYear(), today.getMonth(), 1); // first day of month
+
+            // Format dates as YYYY-MM-DD
+            let formatDate = d => d.toISOString().split('T')[0];
+
+            $('#fromDate').val(formatDate(start));
+            $('#toDate').val(formatDate(today));
         } else {
             $('.custom-range').addClass('d-none');
         }
     }
 
-    toggleCustomRange();
-
-    $('#dateRangeSelector').on('change', function () {
-        toggleCustomRange();
-    });
-
+    // Run on page load and on dropdown change
+    $(document).ready(toggleCustomRange);
+    $('#dateRangeSelector').change(toggleCustomRange);
 });
 </script>
 

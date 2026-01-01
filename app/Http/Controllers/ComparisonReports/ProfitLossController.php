@@ -18,9 +18,9 @@ class ProfitLossController extends Controller
     {
         $fromDate = $request->fromDate ?? date('Y-m-01');
         $toDate   = $request->toDate   ?? date('Y-m-t');
-        $comparedType = $request->comparedType ?? 'This Month';
+        $comparedType = $request->comparedType ?? 'period';
         $comparedCount = $request->comparedCount ?? 1;
-        $dateRangeSelector = $request->dateRangeSelector ?? null;
+        $dateRangeSelector = $request->dateRangeSelector ?? 'This Month';
 
         // Generate comparison dates
         if ($comparedType === 'year') {

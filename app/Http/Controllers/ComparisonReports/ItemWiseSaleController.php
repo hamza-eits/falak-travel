@@ -12,6 +12,10 @@ class ItemWiseSaleController extends Controller
 {
     public function show(Request $request)
     {
+        $request->validate([
+
+        ]);
+
 
         $fromDate = $request->fromDate ?? date('Y-m-01');
         $toDate   = $request->toDate   ?? date('Y-m-t');
