@@ -69,6 +69,24 @@ class ItemWiseSaleController extends Controller
         }
 
 
+
+        $totals = [];
+
+        foreach ($dates as $i => $date) {
+            $totals[$i] = [
+                'no_of_sales' => 0,
+                'total_invoice_amount' => 0,
+                'profit' => 0,
+            ];
+
+            foreach ($finalData as $row) {
+                $totals[$i]['no_of_sales'] += $row['sales'][$i]['no_of_sales'];
+                $totals[$i]['total_invoice_amount'] += $row['sales'][$i]['total_invoice_amount'];
+                $totals[$i]['profit'] += $row['sales'][$i]['profit'];
+            }
+        }
+
+
       
         return view('comparison_reports.item_wise_sales.show', compact(
             'fromDate',
@@ -77,7 +95,8 @@ class ItemWiseSaleController extends Controller
             'comparedCount',
             'dates',
             'finalData',
-            'dateRangeSelector'
+            'dateRangeSelector',
+            'totals',
         ));
 
     }

@@ -63,6 +63,17 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot class="bg-light fw-bold">
+                                    <tr>
+                                        <td class="text-end">Total</td>
+                                        @foreach ($totals as $total)
+                                            <td class="text-end">{{ $total['no_of_sales'] }}</td>
+                                            <td class="text-end">{{ number_format($total['total_invoice_amount'], 2) }}</td>
+                                            <td class="text-end">{{ number_format($total['profit'], 2) }}</td>
+                                        @endforeach
+                                    </tr>
+                                </tfoot>
+
                             </table>
                         </div>
                     </div>
