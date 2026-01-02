@@ -15,7 +15,7 @@
                     <div class="col-md-12">
                        <form action="{{ url('comparison-reports/item-wise-sales') }}" method="GET" class=" align-items-end">
 
-                            @include('comparison_reports.search')
+                            @include('comparison_reports._search')
 
                         </form>
                     </div>
@@ -23,7 +23,7 @@
 
                 <div class="row mt-3">
                     <div class="col-md-12">
-                       @include('comparison_reports.item_wise_sales.partials.filter')
+                       @include('comparison_reports.item_wise_sales._filter')
                     </div>
                 </div>
 

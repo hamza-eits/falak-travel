@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
-class ProfitLossController extends Controller
+class BalanceSheetController extends Controller
 {
     public function show(Request $request)
     {
@@ -25,24 +25,27 @@ class ProfitLossController extends Controller
         }
 
 
-        $revenue = $this->generateReport($dates,'R');
-        $expense = $this->generateReport($dates,'E');
+        $asset = $this->generateReport($dates,'A');
+        $liability = $this->generateReport($dates,'L');
+        $equity = $this->generateReport($dates,'C');
+        $suspense = $this->generateReport($dates,'S');
 
-        // return response()->json($revenue);
-        return view('comparison_reports.profit_loss.show', compact(
+        return view('comparison_reports.balance_sheet.show', compact(
             'fromDate',
             'toDate',
             'comparedType',
             'comparedCount',
-            'revenue',
-            'expense',
+            'asset',
+            'liability',
+            'equity',
+            'suspense',
             'dates',
             'dateRangeSelector'
         ));
 
     }
 
-
+    
     public function generateReport($dates,$code)
     {
         // Level 2  Accounts

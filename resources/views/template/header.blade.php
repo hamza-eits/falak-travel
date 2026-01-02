@@ -150,7 +150,10 @@
                                 <a class="dropdown-item" 
                                     href="{{ URL('/comparison-reports/item-wise-sales') }}">
                                     <i class="bx bx-plus "></i>Item Wise Sales</a>
-                                {{-- <div class="dropdown-divider"></div> --}}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" 
+                                    href="{{ URL('/comparison-reports/balance-sheet') }}">
+                                    <i class="bx bx-plus "></i>Balance Sheet</a>
 
 
                                

@@ -33,6 +33,7 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\ComparisonReports\BalanceSheetController;
 use App\Http\Controllers\ComparisonReports\ItemWiseSaleController;
 use App\Http\Controllers\EstimateController;
 use App\Http\Controllers\SubServiceController;
@@ -615,10 +616,11 @@ Route::post('/print', [UmrahController::class, 'printFromPrinter'])->name('print
 //     });
     
     
-    Route::get('/get-parties', [Accounts::class, 'getParties']);
+Route::get('/get-parties', [Accounts::class, 'getParties']);
 
 Route::prefix('comparison-reports')->name('comparison-reports.')->group(function(){
 	Route::get('profit-loss', [ProfitLossController::class, 'show'])->name('profit-loss');	
 	Route::get('item-wise-sales', [ItemWiseSaleController::class, 'show'])->name('item-wise-sales');	
+	Route::get('balance-sheet', [BalanceSheetController::class, 'show'])->name('balance-sheet');	
 
 });
