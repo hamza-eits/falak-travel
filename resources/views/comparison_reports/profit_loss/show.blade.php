@@ -12,7 +12,7 @@
 
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                         <form action="{{ url('comparison-reports/profit-loss') }}" method="GET" class="row g-3 align-items-end">
+                         <form action="{{ url('comparison-reports/profit-loss') }}" method="GET" class=" align-items-end">
 
                             @include('comparison_reports.search')
 

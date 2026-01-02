@@ -1,4 +1,4 @@
-<div class="card shadow-sm mb-4 border-0">
+<div class="card shadow-sm border-0">
     <div class="card-body py-3">
         <!-- Main Filter Row -->
         <div class="row g-3 align-items-end">
@@ -7,67 +7,39 @@
             <div class="col-lg-3 col-md-6 col-sm-12">
                 <label class="form-label fw-semibold small text-muted">Date Range</label>
                 <select id="dateRangeSelector" name="dateRangeSelector" class="form-select form-select-sm">
-                    <option value="Today"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Today' ? 'selected' : '' }}>Today
-                    </option>
-                    <option value="Yesterday"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Yesterday' ? 'selected' : '' }}>
-                        Yesterday</option>
-                    <option value="This Week"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Week' ? 'selected' : '' }}>This
-                        Week</option>
-                    <option value="This Month"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Month' ? 'selected' : '' }}>This
-                        Month</option>
-                    <option value="This Quarter"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Quarter' ? 'selected' : '' }}>
-                        This Quarter</option>
-                    <option value="This Year"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Year' ? 'selected' : '' }}>This
-                        Year</option>
-                    <option value="Year to Date"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Year to Date' ? 'selected' : '' }}>
-                        Year to Date</option>
-                    <option value="Previous Week"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Week' ? 'selected' : '' }}>
-                        Previous Week</option>
-                    <option value="Previous Month"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Month' ? 'selected' : '' }}>
-                        Previous Month</option>
-                    <option value="Previous Quarter"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Quarter' ? 'selected' : '' }}>
-                        Previous Quarter</option>
-                    <option value="Previous Year"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Year' ? 'selected' : '' }}>
-                        Previous Year</option>
-                    <option value="Custom Range"
-                        {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Custom Range' ? 'selected' : '' }}>
-                        Custom Range</option>
+                    <option value="Today" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Today' ? 'selected' : '' }}>Today</option>
+                    <option value="Yesterday" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Yesterday' ? 'selected' : '' }}>Yesterday</option>
+                    <option value="This Week" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Week' ? 'selected' : '' }}>This Week</option>
+                    <option value="This Month" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Month' ? 'selected' : '' }}>This Month</option>
+                    <option value="This Quarter" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Quarter' ? 'selected' : '' }}>This Quarter</option>
+                    <option value="This Year" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Year' ? 'selected' : '' }}>This Year</option>
+                    <option value="Year to Date" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Year to Date' ? 'selected' : '' }}>Year to Date</option>
+                    <option value="Previous Week" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Week' ? 'selected' : '' }}>Previous Week</option>
+                    <option value="Previous Month" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Month' ? 'selected' : '' }}>Previous Month</option>
+                    <option value="Previous Quarter" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Quarter' ? 'selected' : '' }}>Previous Quarter</option>
+                    <option value="Previous Year" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Previous Year' ? 'selected' : '' }}>Previous Year</option>
+                    <option value="Custom Range" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Custom Range' ? 'selected' : '' }}>Custom Range</option>
                 </select>
             </div>
 
             <!-- Custom From Date -->
             <div class="col-lg-2 col-md-3 col-sm-6 custom-range">
                 <label class="form-label fw-semibold small text-muted">From</label>
-                <input type="date" name="fromDate" id="fromDate" class="form-control form-control-sm"
-                    value="{{ old('fromDate', $fromDate) }}">
+                <input type="date" name="fromDate" id="fromDate" class="form-control form-control-sm" value="{{ old('fromDate', $fromDate) }}">
             </div>
 
             <!-- Custom To Date -->
             <div class="col-lg-2 col-md-3 col-sm-6 custom-range">
                 <label class="form-label fw-semibold small text-muted">To</label>
-                <input type="date" name="toDate" id="toDate" class="form-control form-control-sm"
-                    value="{{ old('toDate', $toDate) }}">
+                <input type="date" name="toDate" id="toDate" class="form-control form-control-sm" value="{{ old('toDate', $toDate) }}">
             </div>
 
             <!-- Compare By -->
             <div class="col-lg-2 col-md-4 col-sm-6">
                 <label class="form-label fw-semibold small text-muted">Compare</label>
                 <select name="comparedType" class="form-select form-select-sm">
-                    <option value="period" {{ old('comparedType', $comparedType) == 'period' ? 'selected' : '' }}>
-                        Previous Period</option>
-                    <option value="year" {{ old('comparedType', $comparedType) == 'year' ? 'selected' : '' }}>
-                        Previous Year</option>
+                    <option value="period" {{ old('comparedType', $comparedType) == 'period' ? 'selected' : '' }}>Previous Period</option>
+                    <option value="year" {{ old('comparedType', $comparedType) == 'year' ? 'selected' : '' }}>Previous Year</option>
                 </select>
             </div>
 
@@ -76,9 +48,7 @@
                 <label class="form-label fw-semibold small text-muted">×</label>
                 <select name="comparedCount" class="form-select form-select-sm">
                     @for ($i = 1; $i <= 10; $i++)
-                        <option value="{{ $i }}"
-                            {{ old('comparedCount', $comparedCount) == $i ? 'selected' : '' }}>{{ $i }}
-                        </option>
+                        <option value="{{ $i }}" {{ old('comparedCount', $comparedCount) == $i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
             </div>
@@ -91,82 +61,71 @@
             </div>
         </div>
     </div>
-    <div class="bg-white px-4 py-3 mb-2">
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-
-            <!-- Selected Period -->
-            <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-calendar-range text-primary fs-5"></i>
-                <div>
-                    <div class="small text-muted fw-semibold">Selected Period</div>
-                    <div class="fw-semibold text-dark">
-                        {{ date('d M Y', strtotime($fromDate)) }}
-                        <span class="text-muted mx-1">→</span>
-                        {{ date('d M Y', strtotime($toDate)) }}
-                    </div>
-                </div>
-            </div>
-
-            @if ($comparedType ?? false)
-                <!-- Comparison -->
-                <div class="d-flex align-items-center gap-2">
-                    <i class="bi bi-bar-chart-line text-secondary fs-5"></i>
-                    <div>
-                        <div class="small text-muted fw-semibold">Comparing To</div>
-                        <div class="fw-semibold text-dark">
-                            {{ ucfirst(str_replace('_', ' ', $comparedType)) }}
-                            @if (isset($comparedCount) && $comparedCount > 1)
-                                <span class="badge bg-secondary ms-1">×{{ $comparedCount }}</span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-        </div>
-    </div>
 </div>
 
 <!-- Active Date Range Display -->
+<div class="bg-light rounded-3 px-4 py-3 mb-1 d-flex flex-wrap align-items-center justify-content-between gap-3">
 
+    <!-- Left: Selected Period -->
+    <div class="d-flex align-items-center">
+        <span class="fw-semibold text-secondary me-2">Selected Period:</span>
+        <span class="badge bg-primary fs-6 px-3 py-2">
+            {{ date('d M Y', strtotime($fromDate)) }} → {{ date('d M Y', strtotime($toDate)) }}
+        </span>
+    </div>
 
+    @if($comparedType ?? false)
+        <!-- Right: Comparing To -->
+        <div class="d-flex align-items-center ms-auto">
+            <span class="fw-semibold text-secondary me-2">Comparing to:</span>
+            <span class="badge bg-secondary fs-6 px-3 py-2">
+                {{ ucfirst(str_replace('_', ' ', $comparedType)) }}
+                @if(isset($comparedCount) && $comparedCount > 1)
+                    ×{{ $comparedCount }}
+                @endif
+            </span>
+        </div>
+    @endif
+
+</div>
 
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script>
-    $(function() {
+$(function () {
 
-        function toggleCustomRange() {
-            if ($('#dateRangeSelector').val() === 'Custom Range') {
-                $('.custom-range').removeClass('d-none');
+  function toggleCustomRange() {
+        if ($('#dateRangeSelector').val() === 'Custom Range') {
+            $('.custom-range').removeClass('d-none');
 
-                let today = new Date();
-                let start = new Date(today.getFullYear(), today.getMonth(), 1); // first day of month
+            let today = new Date();
+            let start = new Date(today.getFullYear(), today.getMonth(), 1); // first day of month
 
-                // Format dates as YYYY-MM-DD
-                let formatDate = d => d.toISOString().split('T')[0];
+            // Format dates as YYYY-MM-DD
+            let formatDate = d => d.toISOString().split('T')[0];
 
-                $('#fromDate').val(formatDate(start));
-                $('#toDate').val(formatDate(today));
-            } else {
-                $('.custom-range').addClass('d-none');
-            }
+            $('#fromDate').val(formatDate(start));
+            $('#toDate').val(formatDate(today));
+        } else {
+            $('.custom-range').addClass('d-none');
         }
+    }
 
-        // Run on page load and on dropdown change
-        $(document).ready(toggleCustomRange);
-        $('#dateRangeSelector').change(toggleCustomRange);
-    });
+    // Run on page load and on dropdown change
+    $(document).ready(toggleCustomRange);
+    $('#dateRangeSelector').change(toggleCustomRange);
+});
 </script>
 
 </script>
 
 <script>
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         // Handle the date range selection
-        $('#dateRangeSelector').on('change', function() {
+        $('#dateRangeSelector').on('change', function () {
             let range = $(this).val();
             let fromDate = null;
             let toDate = null;
