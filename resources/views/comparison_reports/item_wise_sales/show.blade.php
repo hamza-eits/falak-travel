@@ -29,8 +29,8 @@
 
 
 
-                <div class="card mt-2">
-                    <div class="card-body">
+                {{-- <div class="card mt-2"> --}}
+                    <div class="card rounded-3">
                         <div class="table-responsive">
                             <table class="table table-sm table-bordered text-nowrap">
                                 <thead class="bg-dark text-white">
@@ -77,7 +77,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                {{-- </div> --}}
             </div>
         </div>
     </div>
