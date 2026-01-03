@@ -221,165 +221,56 @@
 
                 @endif
 
-
-
                     <div class="row">
+                        @foreach ($cards as $card)
+                            <div class="col-md-4 col-sm-6 col-lg-3 col-xl-2 mb-3">
+                                <div class="card order-card" style="background-color: {{ $card['color'] }}">
+                                    <div class="card-block">
+
+                                        <h6 class="m-b-20 text-white">
+                                            {{ $card['title'] }}
+                                        </h6>
+
+                                        <h2 class="text-white mt-3 d-flex align-items-center justify-content-between">
+                                            <i class="{{ $card['icon'] }}" style="font-size:18px"></i>
+                                            <span style="font-size:18px">
+                                                {{ number_format($card['amount'], 2) }}
+                                            </span>
+                                        </h2>
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        @if (Session::get('UserType') === 'Admin')
+                            @foreach ($adminCards as $card)
+                                <div class="col-md-4 col-sm-6 col-lg-3 col-xl-2 mb-3">
+                                    <div class="card order-card" style="background-color: {{ $card['color'] }}">
+                                        <div class="card-block">
+
+                                            <h6 class="m-b-20 text-white">
+                                                {{ $card['title'] }}
+                                            </h6>
+
+                                            <h2 class="text-white mt-3 d-flex align-items-center justify-content-between">
+                                                <i class="{{ $card['icon'] }}" style="font-size:18px"></i>
+                                                <span style="font-size:18px">
+                                                    <a href="{{ $card['link'] }}" class="text-white">
+                                                        {{ number_format($card['amount'], 2) }}
+                                                    </a>
+                                                </span>
+                                            </h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        @endif
                         
                     </div>
-              
-                    <div class="row">
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-green order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">ADCB BANK</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-bank f-left"></i>
-                                        <span>{{ number_format($todaySales->ADCB) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-yellow order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">ENBD BANK</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-bank f-left"></i>
-                                        <span>{{ number_format($todaySales->ENBD) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-orange order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">NOMOD BANK</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-bank f-left"></i>
-                                        <span>{{ number_format($todaySales->NOMOD) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-purple order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">TABBY BANK</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-bank f-left"></i>
-                                        <span>{{ number_format($todaySales->TABBY) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-teal order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">TAMARA BANK</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-bank f-left"></i>
-                                        <span>{{ number_format($todaySales->TAMARA) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-indigo order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">BOTIM BANK</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-bank f-left"></i>
-                                        <span>{{ number_format($todaySales->BOTIM) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-blue order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">TODAY'S CASH SALE</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-wallet f-left"></i>
-                                        <span>{{ number_format($todaySales->CASH) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-pink order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">TODAY'S TOTAL SALE</h6>
-                                    <h2 class="text-end text-white mt-3">
-                                        <i class="bx bxs-credit-card f-left"></i>
-                                        <span>{{ number_format($todaySales->TOTAL_SALES) }}</span>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                        @if (Session::get('UserType') == 'Admin')
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-red order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">PARTY BALANCES</h6>
-                                    <h3 class="text-end text-white mt-3">
-                                        <i class="bx bxs-spreadsheet f-left"></i>
-                                        <a href="{{ URL('/PartyBalanceShowAll') }}" class="text-white">
-                                            {{ number_format($party_balance[0]->Balance, 2) }} AED
-                                        </a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-cyan order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">TODAY'S INCOME</h6>
-                                    <h3 class="text-end text-white mt-3">
-                                        <i class="bx bxs-trending-up f-left"></i>
-                                        <a href="{{ URL('/SalemanTicketShowAll') }}" class="text-white">
-                                            {{ $expense[0]->Balance == null ? '0' : number_format($expense[0]->Balance, 2) }} AED
-                                        </a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-purple order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">MONTHLY INCOME</h6>
-                                    <h3 class="text-end text-white mt-3">
-                                        <i class="bx bxs-trending-up f-left"></i>
-                                        <a href="#" class="text-white">
-                                            {{ $invoice_summary[0]->Service == null ? '0' : number_format($invoice_summary[0]->Service, 2) }} AED
-                                        </a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-xl-2">
-                            <div class="card bg-c-green order-card">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 text-white">CURRENT YEAR P&L</h6>
-                                    <h3 class="text-end text-white mt-3">
-                                        <i class="bx bxs-chart f-left"></i>
-                                        <a href="#" class="text-white">{{ number_format($profit_loss, 2) }} AED</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    @endif
 
 
 
@@ -392,104 +283,100 @@
 
                 </div>
                 @if (Session::get('UserType') == 'Admin')
-                    <div class="row">
+                  
 
-                        <div class="col-xl-12">
-                            <div class="row">
+                    <div class="col-xl-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body border-secondary border-top border-3 rounded-top">
 
-
-
-                                <div class="col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body border-secondary border-top border-3 rounded-top">
-
-                                            <div class="text-muted mt-4">
-                                                <div id="sale_register"></div>
-                                                <div class="d-flex">
-                                                    <span class="ms-2 text-truncate mt-3"> </span>
-                                                </div>
+                                        <div class="text-muted mt-4">
+                                            <div id="sale_register"></div>
+                                            <div class="d-flex">
+                                                <span class="ms-2 text-truncate mt-3"> </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
-                                <div class="col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body border-secondary border-top border-3 rounded-top">
-
-                                            <div class="text-muted mt-4">
-                                                <div id="container2"></div>
-                                                <div class="d-flex">
-                                                    <span class="ms-2 text-truncate mt-3"> </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body border-secondary border-top border-3 rounded-top">
-
-                                            <div class="text-muted mt-4">
-                                                <div id="container4"></div>
-                                                <div class="d-flex">
-                                                    <span class="ms-2 text-truncate mt-3"> </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body border-secondary border-top border-3 rounded-top">
-
-                                            <div class="text-muted mt-4">
-                                                <div id="sale_report"></div>
-                                                <div class="d-flex">
-                                                    <span class="ms-2 text-truncate mt-3"> </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body border-secondary border-top border-3 rounded-top">
-
-                                            <div class="text-muted mt-4">
-                                                <div id="container3"></div>
-                                                <div class="d-flex">
-                                                    <span class="ms-2 text-truncate mt-3"> </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body border-secondary border-top border-3 rounded-top">
-
-                                            <div class="text-muted mt-4">
-                                                <div id="container"></div>
-                                                <div class="d-flex">
-                                                    <span class="ms-2 text-truncate mt-3"> </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
                             </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body border-secondary border-top border-3 rounded-top">
+
+                                        <div class="text-muted mt-4">
+                                            <div id="container2"></div>
+                                            <div class="d-flex">
+                                                <span class="ms-2 text-truncate mt-3"> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body border-secondary border-top border-3 rounded-top">
+
+                                        <div class="text-muted mt-4">
+                                            <div id="container4"></div>
+                                            <div class="d-flex">
+                                                <span class="ms-2 text-truncate mt-3"> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body border-secondary border-top border-3 rounded-top">
+
+                                        <div class="text-muted mt-4">
+                                            <div id="sale_report"></div>
+                                            <div class="d-flex">
+                                                <span class="ms-2 text-truncate mt-3"> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body border-secondary border-top border-3 rounded-top">
+
+                                        <div class="text-muted mt-4">
+                                            <div id="container3"></div>
+                                            <div class="d-flex">
+                                                <span class="ms-2 text-truncate mt-3"> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body border-secondary border-top border-3 rounded-top">
+
+                                        <div class="text-muted mt-4">
+                                            <div id="container"></div>
+                                            <div class="d-flex">
+                                                <span class="ms-2 text-truncate mt-3"> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
 

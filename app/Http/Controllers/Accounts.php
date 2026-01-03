@@ -3352,10 +3352,91 @@ $v_cashflow = DB::table('v_cashflow')
         ])
         ->whereDate('Date', now())
       ->first();
+
+
+      $cards = [
+        [
+            'title' => 'ADCB BANK',
+            'amount' => $todaySales->ADCB,
+            'icon' => 'bx bxs-bank',
+            'color' => '#E41B12',
+        ],
+        [
+            'title' => 'ENBD BANK',
+            'amount' => $todaySales->ENBD,
+            'icon' => 'bx bxs-bank',
+            'color' => '#003A8F',
+        ],
+        [
+            'title' => 'NOMOD BANK',
+            'amount' => $todaySales->NOMOD,
+            'icon' => 'bx bxs-bank',
+            'color' => '#0046FF',
+        ],
+        [
+            'title' => 'TABBY BANK',
+            'amount' => $todaySales->TABBY,
+            'icon' => 'bx bxs-credit-card',
+            'color' => '#3BFF9D',
+        ],
+        [
+            'title' => 'TAMARA BANK',
+            'amount' => $todaySales->TAMARA,
+            'icon' => 'bx bxs-credit-card',
+            'color' => '#9600F1',
+        ],
+        [
+            'title' => 'BOTIM BANK',
+            'amount' => $todaySales->BOTIM,
+            'icon' => 'bx bxs-bank',
+            'color' => '#011FE5',
+        ],
+        [
+            'title' => "TODAY'S CASH SALE",
+            'amount' => $todaySales->CASH,
+            'icon' => 'bx bxs-wallet',
+            'color' => '#0D6EFD',
+        ],
+        [
+            'title' => "TODAY'S TOTAL SALE",
+            'amount' => $todaySales->TOTAL_SALES,
+            'icon' => 'bx bxs-credit-card',
+            'color' => '#E83E8C',
+        ],
+      ];
+
+      $adminCards = [
+        [
+            'title' => 'PARTY BALANCES',
+            'amount' => $party_balance[0]->Balance,
+            'icon' => 'bx bxs-spreadsheet',
+            'color' => '#0DCAF0',
+            'link' => url('/PartyBalanceShowAll'),
+        ],
+        [
+            'title' => "TODAY'S INCOME",
+            'amount' => $expense[0]->Balance == null ? '0' : number_format($expense[0]->Balance, 2),
+            'icon' => 'bx bx-trending-up',
+            'color' => '#DC3545',
+            'link' => url('/SalemanTicketShowAll'),
+        ],
+        [
+            'title' => 'MONTHLY INCOME',
+            'amount' => $invoice_summary[0]->Service == null ? '0' : number_format($invoice_summary[0]->Service, 2),
+            'icon' => 'bx bx-trending-up',
+            'color' => '#198754',
+            'link' => '#'
+        ],
+        [
+            'title' => 'CURRENT YEAR P&L',
+            'amount' => $profit_loss,
+            'icon' => 'bx bxs-chart',
+            'color' => '#FFC107',
+            'link' => '#'
+        ],
+    ];
           
-   
- 
-     return view('dashboard', compact('pagetitle','todaySales' ,'v_cashflow', 'invoice_master', 'expense', 'revenue', 'profit_loss', 'cash', 'cash1', 'exp_chart', 'party_balance', 'ticket_register', 'avg','lead_summary','sale_report','leads_unassigned','leads_created_today','leads_updated_today','followup','average','invoice_summary','monthly_income','bank_charges','monthlyBankCharges'));
+     return view('dashboard', compact('pagetitle','adminCards','cards','todaySales' ,'v_cashflow', 'invoice_master', 'expense', 'revenue', 'profit_loss', 'cash', 'cash1', 'exp_chart', 'party_balance', 'ticket_register', 'avg','lead_summary','sale_report','leads_unassigned','leads_created_today','leads_updated_today','followup','average','invoice_summary','monthly_income','bank_charges','monthlyBankCharges'));
   }
 
 
