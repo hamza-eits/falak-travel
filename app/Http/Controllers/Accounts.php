@@ -3415,14 +3415,14 @@ $v_cashflow = DB::table('v_cashflow')
         ],
         [
             'title' => "TODAY'S INCOME",
-            'amount' => $expense[0]->Balance == null ? '0' : number_format($expense[0]->Balance, 2),
+            'amount' =>$expense[0]->Balance,
             'icon' => 'bx bx-trending-up',
             'color' => '#DC3545',
             'link' => url('/SalemanTicketShowAll'),
         ],
         [
             'title' => 'MONTHLY INCOME',
-            'amount' => $invoice_summary[0]->Service == null ? '0' : number_format($invoice_summary[0]->Service, 2),
+            'amount' => $invoice_summary[0]->Service,
             'icon' => 'bx bx-trending-up',
             'color' => '#198754',
             'link' => '#'
