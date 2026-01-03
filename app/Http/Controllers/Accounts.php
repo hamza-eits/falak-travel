@@ -3359,7 +3359,7 @@ $v_cashflow = DB::table('v_cashflow')
             'title' => 'ADCB BANK',
             'amount' => $todaySales->ADCB,
             'icon' => 'bx bxs-bank',
-            'color' => '#E41B12',
+            'color' => '#bf2e26',
         ],
         [
             'title' => 'ENBD BANK',
@@ -3377,7 +3377,7 @@ $v_cashflow = DB::table('v_cashflow')
             'title' => 'TABBY BANK',
             'amount' => $todaySales->TABBY,
             'icon' => 'bx bxs-credit-card',
-            'color' => '#3BFF9D',
+            'color' => '#003228',
         ],
         [
             'title' => 'TAMARA BANK',
