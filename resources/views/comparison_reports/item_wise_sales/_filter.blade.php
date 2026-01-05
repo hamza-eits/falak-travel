@@ -7,7 +7,7 @@
 
     <input type="radio" class="btn-check" name="view_type" id="view_no_sale" value="no_sale">
     <label class="btn btn-outline-primary" for="view_no_sale">
-        <i class="bi bi-x-circle me-1"></i> No Sale
+        <i class="bi bi-x-circle me-1"></i> Sales Count
     </label>
 
     <input type="radio" class="btn-check" name="view_type" id="view_invoice" value="invoice">

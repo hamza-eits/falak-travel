@@ -1141,8 +1141,16 @@ try {
 
   public function modelVoucherSave(Request $request)
   {
-    // dd($request->all());
+    
+    $request->validate([
+      'voucher_number' => 'required',
+      'deposit_to' => 'required',
+      'ChartOfAccountID' => 'required',
+      'partyID' => 'required',
+      'InvoiceMasterID' => 'required',
+    ]);
 
+   
     if($request->InvoiceTypeID == 1){
       $VoucherType = ($request->input('payment_mode') == 'CASH') ? 5 : 2;
       $acc_company = 'Debit';
@@ -3431,7 +3439,7 @@ $v_cashflow = DB::table('v_cashflow')
             'title' => 'CURRENT YEAR P&L',
             'amount' => $profit_loss,
             'icon' => 'bx bxs-chart',
-            'color' => '#FFC107',
+            'color' => '#dea908ff',
             'link' => '#'
         ],
     ];

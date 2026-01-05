@@ -44,7 +44,7 @@
                                     </tr>
                                     <tr>
                                         @foreach ($dates as $date)
-                                            <th class="text-end sortable no-of-sales">No. Sales</th>
+                                            <th class="text-end sortable no-of-sales">Sales Count</th>
                                             <th class="text-end sortable total-invoice-amount">Total Inv.</th>
                                             <th class="text-end sortable profit">Profit</th>
                                         @endforeach    
@@ -67,9 +67,9 @@
                                     <tr>
                                         <td class="text-end">Total</td>
                                         @foreach ($totals as $total)
-                                            <td class="text-end">{{ $total['no_of_sales'] }}</td>
-                                            <td class="text-end">{{ number_format($total['total_invoice_amount'], 2) }}</td>
-                                            <td class="text-end">{{ number_format($total['profit'], 2) }}</td>
+                                            <td class="text-end no-of-sales">{{ $total['no_of_sales'] }}</td>
+                                            <td class="text-end total-invoice-amount">{{ number_format($total['total_invoice_amount'], 2) }}</td>
+                                            <td class="text-end profit">{{ number_format($total['profit'], 2) }}</td>
                                         @endforeach
                                     </tr>
                                 </tfoot>

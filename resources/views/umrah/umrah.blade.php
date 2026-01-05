@@ -436,7 +436,7 @@
                                 <label for="customerName" class="col-md-2 col-form-label fw-bold">Customer Name</label>
                                 <div class="col-md-4">
                                     <input class="form-control" type="text" id="customerName" name="customer_name"
-                                        value="">
+                                        value="" readonly>
                                 </div>
                             </div>
 
@@ -444,7 +444,7 @@
                                 <label for="paymentNumber" class="col-md-2 col-form-label fw-bold">Payment #</label>
                                 <div class="col-md-4">
                                     <input class="form-control" type="text" id="InvoiceMasterID"
-                                        name="InvoiceMasterID" value="">
+                                        name="InvoiceMasterID" value="" readonly>
                                 </div>
                             </div>
                             <hr>
@@ -558,7 +558,7 @@
                                 <label for="voucher-number" class="col-md-2 col-form-label fw-bold">Voucher#</label>
                                 <div class="col-md-4">
                                     <input class="form-control" type="text" id="voucherNumber" name="voucher_number"
-                                        value="">
+                                        value="" readonly>
                                 </div>
                             </div>
 

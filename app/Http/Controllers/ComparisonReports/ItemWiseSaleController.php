@@ -26,7 +26,7 @@ class ItemWiseSaleController extends Controller
 
         //Generate comparison dates
         if ($comparedType === 'year') {
-            $dates = $this->comparedYearDates($fromDate, $toDate, $comparedCount);
+            $dates = $this->comparedYearDates($fromDate, $toDate, $comparedCount,$dateRangeSelector);
         } else {
             $dates = $this->comparedMonthDates($fromDate, $toDate, $comparedCount);
         }
@@ -127,7 +127,7 @@ class ItemWiseSaleController extends Controller
         return $dates;
     }
 
-    public function comparedYearDates($fromDate, $toDate, $comparedCount)
+    public function comparedYearDates($fromDate, $toDate, $comparedCount,$dateRangeSelector)
     {
         $dates = [];
 
@@ -137,12 +137,28 @@ class ItemWiseSaleController extends Controller
             $to   = Carbon::parse($toDate)->subYearsNoOverflow($i);
 
             $dates[] = [
-                'label'    => $from->format('Y'), // Year label
+                // 'label'    => $from->format('Y'), // Year label
+                'label'    => $this->getDateRangeLabel($from, $to,$dateRangeSelector), // Year label
                 'fromDate' => $from->format('Y-m-d'),
                 'toDate'   => $to->format('Y-m-d'),
             ];
         }
 
         return $dates;
+    }
+
+
+    public function getDateRangeLabel($from,$to,$dateRangeSelector)
+    {
+        return match ($dateRangeSelector){
+
+            "Today" => $from->format('d M Y'),
+            "Yesterday" => $from->format('d M Y'),
+
+            "This Year" => $from->format('Y'),
+            "Previous Year" => $from->format('Y'),
+           
+            default => $from->format('M Y')
+        };
     }
 }

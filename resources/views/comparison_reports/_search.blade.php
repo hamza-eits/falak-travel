@@ -47,7 +47,7 @@
             <div class="col-lg-1 col-md-2 col-sm-3">
                 <label class="form-label fw-semibold small text-muted">×</label>
                 <select name="comparedCount" class="form-select form-select-sm">
-                    @for ($i = 1; $i <= 10; $i++)
+                    @for ($i = 1; $i <= 12; $i++)
                         <option value="{{ $i }}" {{ old('comparedCount', $comparedCount) == $i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
