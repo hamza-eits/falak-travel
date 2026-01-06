@@ -29,7 +29,7 @@
                                     <table class="table table-sm table-bordered text-nowrap">
                                         <thead>
                                             <tr class="bg-dark text-white">
-                                                <th class="text-start" style="width: 400px">ACCOUNTS</th>
+                                                <th class="text-start" style="width: 400px">REVENUE</th>
                                                 @foreach ($dates as $date)
                                                     <th style="width: 100px" class="text-center">{{ $date['label'] }}</th>
                                                 @endforeach
@@ -94,7 +94,7 @@
                                     <table class="table table-sm table-bordered text-nowrap">
                                         <thead>
                                             <tr class="bg-dark text-white">
-                                                <th class="text-start" style="width: 400px">ACCOUNTS</th>
+                                                <th class="text-start" style="width: 400px">EXPENSE</th>
                                                 @foreach ($dates as $date)
                                                     <th style="width: 100px" class="text-center">{{ $date['label'] }}</th>
                                                 @endforeach
