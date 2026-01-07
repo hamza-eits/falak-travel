@@ -3358,6 +3358,7 @@ $v_cashflow = DB::table('v_cashflow')
             110605, // TAMARA
             110607  // BOTIM
         ])
+        ->where('InvoiceMasterID','!=',NULL)
         ->whereDate('Date', now())
       ->first();
 
