@@ -102,7 +102,7 @@ else
      <td class="text-end fw-bolder"><div align="right">{{number_format($DrTotal,2)}}</div></td>
      <td class="text-end fw-bolder"><div align="right">{{number_format($CrTotal,2)}}</div></td>
             
-     <td class="text-end fw-bolder"> </td>
+      <td style="text-align: right;" class="text-end fw-bolder">{{ number_format($balance, 2) }} {{ ($balance > 0) ? "DR" : "CR" }}</td>
     </tr>
     </tbody>
 </table>

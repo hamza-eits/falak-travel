@@ -115,7 +115,7 @@
     }
 </script>
 
-    <table width="60%" border="1" style="font-size: 10pt;" align="center">
+    <table width="80%" border="1" style="font-size: 10pt;" align="center">
 
         <tr>
             <th bgcolor="#CCCCCC"><strong>VHNO</strong></th>
@@ -150,7 +150,7 @@
                         <a href="{{ $url }}" title="" target="_blank">{{ $value->VHNO }}</a>
 
                     </td>
-                    <td style="border: 1px solid black;" valign="top">{{ dateformatman($value->Date) }}</td>
+                    <td style="border: 1px solid black; text-align: center" valign="top">{{ dateformatman($value->Date) }}</td>
                     <td style="border: 1px solid black;" valign="top">{{ DB::table('v_invoice_master')->where('InvoiceMasterID',$value->InvoiceMasterID)->pluck('FullName')->first() }}</td>
                     <td style="border: 1px solid black;" valign="top"><a
                             href="{{ URL('/VoucherEdit' . '/' . $value->VoucherMstID) }}" title=""
