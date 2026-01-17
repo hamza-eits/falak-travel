@@ -10,6 +10,7 @@
                     <option value="Today" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Today' ? 'selected' : '' }}>Today</option>
                     <option value="Yesterday" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Yesterday' ? 'selected' : '' }}>Yesterday</option>
                     <option value="This Week" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Week' ? 'selected' : '' }}>This Week</option>
+                    <option value="Current Month to Date" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'Current Month to Date' ? 'selected' : '' }}>Current Month to Date</option>
                     <option value="This Month" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Month' ? 'selected' : '' }}>This Month</option>
                     <option value="This Quarter" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Quarter' ? 'selected' : '' }}>This Quarter</option>
                     <option value="This Year" {{ old('dateRangeSelector', $dateRangeSelector ?? '') == 'This Year' ? 'selected' : '' }}>This Year</option>
@@ -142,6 +143,10 @@ $(function () {
                 case "This Week":
                     fromDate = moment().startOf("week").format("YYYY-MM-DD");
                     toDate = moment().endOf("week").format("YYYY-MM-DD");
+                    break;
+                case "Current Month to Date":
+                    fromDate = moment().startOf("month").format("YYYY-MM-DD");
+                    toDate = moment().format("YYYY-MM-DD");
                     break;
                 case "This Month":
                     fromDate = moment().startOf("month").format("YYYY-MM-DD");
