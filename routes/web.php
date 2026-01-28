@@ -25,20 +25,21 @@ use App\Http\Controllers\AdminDashboard;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ChartOfAccount;
 use App\Http\Controllers\LeadController;
-use App\Http\Controllers\StaffController;
+use App\Http\Controllers\TestController;
  use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UmrahController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\ComparisonReports\BalanceSheetController;
-use App\Http\Controllers\ComparisonReports\ItemWiseSaleController;
 use App\Http\Controllers\EstimateController;
 use App\Http\Controllers\SubServiceController;
 use App\Http\Controllers\LeadActivityController;
 use App\Http\Controllers\ComparisonReports\ProfitLossController;
+use App\Http\Controllers\ComparisonReports\BalanceSheetController;
+use App\Http\Controllers\ComparisonReports\ItemWiseSaleController;
 
 Route::get('/search-party', function () {
     $search = request('q');
@@ -624,3 +625,7 @@ Route::prefix('comparison-reports')->name('comparison-reports.')->group(function
 	Route::get('balance-sheet', [BalanceSheetController::class, 'show'])->name('balance-sheet');	
 
 });
+
+Route::post('/tests', [TestController::class, 'index1']);
+Route::get('/tests2/{PartyID}', [TestController::class, 'index2']);	
+

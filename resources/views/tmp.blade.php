@@ -30,6 +30,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
 
+        @stack('styles')
 
     </head>
 
@@ -63,20 +64,20 @@
             <!-- Left Sidebar End -->
             
 
-             @yield('content')
-
+            
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <div class="main-content">
-
+                
                 <div class="page-content">
                     <div class="container-fluid">
-
                         
-                       
-
                         
+                        
+                        
+                        
+                        @yield('content')
 
                        
                         
