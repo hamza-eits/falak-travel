@@ -4440,12 +4440,13 @@ $v_cashflow = DB::table('v_cashflow')
     ->orderBy('JournalID', 'asc')   // Sort by ID in ascending order
       ->get();
 
+      $company = DB::table('company')->first();
     //          $pdf = PDF::loadView ('party_ledger1pdf',compact('journal','pagetitle','sql' ,'party')); 
     // //return $pdf->download('pdfview.pdf');
     //    $pdf->setpaper('A4', 'portiate');
     //       return $pdf->stream();
 
-    $pdf = PDF::loadView('reports.party_ledger1pdf', compact('journal', 'pagetitle', 'sql', 'party'));
+    $pdf = PDF::loadView('reports.party_ledger1pdf', compact('journal', 'pagetitle', 'sql', 'party','company'));
     //return $pdf->download('pdfview.pdf');
     $pdf->setpaper('A4', 'landscape');
     return $pdf->stream();
