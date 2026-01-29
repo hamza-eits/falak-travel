@@ -12,11 +12,15 @@
         font-size:13px;
     }
 
+<<<<<<< HEAD
+    <table width="80%" border="1" style="font-size: 10pt;" align="center">
+=======
     .document-wrapper{
         width:100%;
         padding:20px;
         box-sizing:border-box;
     }
+>>>>>>> saad-workspace
 
     /* ================= HEADER ================= */
 
@@ -159,97 +163,98 @@
             display:table-header-group;
         }
 
-        body,
-        td,
-        th {
-            font-size: 13px;
+        tbody{
+            display:table-row-group;
         }
 
-        -->
-    </style>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
+        tr{
+            page-break-inside:avoid;
+            page-break-after:auto;
+        }
 
-<body>
-
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="noborder_table">
-        <tr>
-            <td colspan="2">
-                <div align="center" class="style1">{{ $company[0]->Name }}</div>
-
-                <div align="center">{{ $company[0]->Address }}</div>
-                <div align="center">TRN : {{ $company[0]->TRN }}</div>
-            </td>
-        </tr>
-        <tr style="color: red;">
-            <td colspan="2">
-                <div align="center" class="style1" style="color: red;">
-                    {{ $party[0]->PartyID }}-{{ $party[0]->PartyName }} </div>
-                <div align="center">Ledger Account</div>
-            </td>
-        </tr>
-        <tr style="color: red;">
-            <td colspan="2">
-                <div align="center">Contact : {{ $party[0]->Phone }}</div>
-            </td>
-        </tr>
-        <tr style="color: red;">
-            <td colspan="2">
-                <div align="center">From {{ dateformatman2(request()->StartDate) }} To
-                    {{ dateformatman2(request()->EndDate) }}
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td width="50%">Dated: {{ date('d-m-Y') }}</td>
-            <td width="50%">&nbsp;</td>
-        </tr>
-    </table>
-
-    <?php
-    $DrTotal = 0;
-    $CrTotal = 0;
-    
-    ?>
-
-    <script type="text/php">
-    if ( isset($pdf) ) {
-        $font = Font_Metrics::get_font("helvetica", "bold");
-        $pdf->page_text(72, 18, "Header: {PAGE_NUM} of {PAGE_COUNT}", $font, 6, array(0,0,0));
     }
-</script>
 
-    <table width="60%" border="1" style="font-size: 10pt;" align="center">
-
-        <tr>
-            <th bgcolor="#CCCCCC"><strong>VHNO</strong></th>
-            <th bgcolor="#CCCCCC"><strong>DATE</strong></th>
-            <th bgcolor="#CCCCCC"><strong>Saleman</strong></th>
-            <th bgcolor="#CCCCCC"><strong>C.O</strong></th>
-            <th bgcolor="#CCCCCC"><strong>Description</strong></th>
-            <th bgcolor="#CCCCCC"><strong>DR</strong></th>
-            <th bgcolor="#CCCCCC"><strong>CR</strong></th>
-            <th bgcolor="#CCCCCC"><strong>Balance</strong></th>
-        </tr>
+</style>
+@endpush
 
 
+@section('content')
 
-        @if (!$journal->isEmpty())
-            @foreach ($journal as $key => $value)
-                <?php
-                $invoice_master = DB::table('invoice_master')->where('InvoiceMasterID', $value->InvoiceMasterID)->get();
-                ?>
-                <tr valign="top">
-                    <td style="border: 1px solid black;" valign="top">
+ <div class="main-content">
+                
+                <div class="page-content">
+                    <div class="container-fluid">
 
-                        @php
-                            $url = '';
-                            if (str_starts_with($value->VHNO, 'UI')) {
-                                $url = URL('/UmrahEdit/' . $value->InvoiceMasterID);
-                            } elseif (str_starts_with($value->VHNO, 'SI')) {
-                                $url = URL('/InvoiceEdit/' . $value->InvoiceMasterID);
-                            }
-                        @endphp
+
+    <!-- COMPANY -->
+
+    <div class="details-grid">
+
+        <div class="details-item full">
+            {{ $company[0]->Name }}
+        </div>
+
+        <div class="details-item left">
+            {{ $company[0]->Address }}
+        </div>
+
+        <div class="details-item right">
+            TRN : {{ $company[0]->TRN }}
+        </div>
+
+        <div class="details-item left red label">
+            {{ $party[0]->PartyID }} - {{ $party[0]->PartyName }}
+        </div>
+        <div class="details-item right red"></div>
+
+        <div class="details-item left red">
+            Contact : {{ $party[0]->Phone }}
+        </div>
+        <div class="details-item right red"></div>
+
+        <div class="details-item left label no-border">
+            Dated : {{ date('d-m-Y') }}
+        </div>
+        <div class="details-item right no-border"></div>
+
+    </div>
+
+    @php
+        $DrTotal = 0;
+        $CrTotal = 0;
+        $balance = null;
+    @endphp
+
+    <!-- TABLE -->
+
+    <div class="table-responsive">
+        <table>
+
+            <thead>
+                <tr>
+                    <th style="width:5%">VHNO</th>
+                    <th style="width:7%">DATE</th>
+                    <th style="width:8%">Salesman</th>
+                    <th style="width:10%">C.O</th>
+                    <th style="width:45%">Description</th>
+                    <th style="width:7%">DR</th>
+                    <th style="width:7%">CR</th>
+                    <th style="width:11%">Balance</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            @foreach($journal as $value)
+
+                @php
+                    $balance = is_null($balance)
+                        ? ($value->Dr - $value->Cr)
+                        : $balance + ($value->Dr - $value->Cr);
+
+                    $DrTotal += $value->Dr;
+                    $CrTotal += $value->Cr;
+                @endphp
 
                 <tr>
                     <td class="text-center">{{ $value->VHNO }}</td>
@@ -265,28 +270,11 @@
                             Edit VH#
                         </a>
                     </td>
-                    <td style="border: 1px solid black;" valign="top">{{ dateformatman($value->Date) }}</td>
-                    <td style="border: 1px solid black;" valign="top">{{ DB::table('v_invoice_master')->where('InvoiceMasterID',$value->InvoiceMasterID)->pluck('FullName')->first() }}</td>
-                    <td style="border: 1px solid black;" valign="top"><a
-                            href="{{ URL('/VoucherEdit' . '/' . $value->VoucherMstID) }}" title=""
-                            target="_blank">Edit VH#</a></td>
-                    <td align="left" style="border: 1px solid black;  " valign="top">{{ $value->Narration }}<div
-                            style="color: red;">
-                            @if (substr($value->VHNO, 0, 3) == 'TAX' || substr($value->VHNO, 0, 3) == 'INV')
-                                <?php
-                                
-                                $invoice_detail = DB::table('v_invoice_detail')->where('InvoiceMasterID', $value->InvoiceMasterID)->get();
-                                
-                                ?>
-
-                                @if (!$invoice_detail->isEmpty())
-                                    @foreach ($invoice_detail as $key => $value1)
-                                        {{ $value1->ItemName }} {{ $value1->Qty }} Qty x {{ $value1->Rate }} Rate
-                                        ={{ $value1->Total }} <br>
-                                    @endforeach
-                                @endif
-                            @endif
-                        </div>
+                    <td>{{ $value->Narration }}</td>
+                    <td class="text-right">{{ $value->Dr ? number_format($value->Dr,2) : '' }}</td>
+                    <td class="text-right">{{ $value->Cr ? number_format($value->Cr,2) : '' }}</td>
+                    <td class="text-right">
+                        {{ number_format(abs($balance),2) }} {{ $balance >= 0 ? 'DR' : 'CR' }}
                     </td>
                 </tr>
 
