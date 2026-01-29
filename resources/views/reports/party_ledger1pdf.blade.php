@@ -16,8 +16,7 @@
             font-family: Arial, sans-serif;
             background: #ffffff;
             padding: 20px;
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 12px;
         }
 
         /* CONTAINER */
@@ -183,42 +182,42 @@
 
         <!-- PARTY INFO -->
         <div class="info-box">
-    <div class="info-row">
-        <div class="info-col">
-            <b>Party Name:</b> {{ $party[0]->PartyName }} - {{ $party[0]->PartyID }}
-        </div>
-        <div class="info-col">
-            <b>Contact:</b> {{ $party[0]->Phone }}
-        </div>
-        <div style="clear: both;"></div>
-    </div>
+            <div class="info-row">
+                <div class="info-col">
+                    <b>Party Name:</b> {{ $party[0]->PartyName }} - {{ $party[0]->PartyID }}
+                </div>
+                <div class="info-col">
+                    <b>Contact:</b> {{ $party[0]->Phone }}
+                </div>
+                <div style="clear: both;"></div>
+            </div>
 
-    <div class="info-row">
-        <div class="info-col">
-            <b>Period:</b> {{ session('StartDate') }} TO {{ session('EndDate') }}
+            <div class="info-row">
+                <div class="info-col">
+                    <b>Period:</b> {{ date('d-m-Y', strtotime(session('StartDate'))) }} to {{ date('d-m-Y', strtotime(session('EndDate')))  }}
+                </div>
+                <div class="info-col">
+                    <b>Report Date:</b> {{ date('d M, Y') }}
+                </div>
+                <div style="clear: both;"></div>
+            </div>
         </div>
-        <div class="info-col">
-            <b>Report Date:</b> {{ date('d-M-Y') }}
-        </div>
-        <div style="clear: both;"></div>
-    </div>
-</div>
 
 
         @if (count($journal) > 0)
 
             <!-- DATA TABLE -->
-            <table>
+            <table style="width: 100%">
 
                 <thead>
                     <tr>
                         <th style="width:5%">Date</th>
                         <th style="width:7%">VHNO</th>
-                        <th style="width:5%">Type</th>
-                        <th style="width:49%">Description</th>
-                        <th style="width:5%">DR</th>
-                        <th style="width:5%">CR</th>
-                        <th style="width:10%">Balance</th>
+                        <th style="width:3%">Type</th>
+                        <th style="width:50%">Description</th>
+                        <th style="width:10%">DR</th>
+                        <th style="width:10%">CR</th>
+                        <th style="width:15%">Balance</th>
                     </tr>
                 </thead>
 
