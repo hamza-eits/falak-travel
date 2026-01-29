@@ -12,15 +12,11 @@
         font-size:13px;
     }
 
-<<<<<<< HEAD
-    <table width="80%" border="1" style="font-size: 10pt;" align="center">
-=======
     .document-wrapper{
         width:100%;
         padding:20px;
         box-sizing:border-box;
     }
->>>>>>> saad-workspace
 
     /* ================= HEADER ================= */
 
