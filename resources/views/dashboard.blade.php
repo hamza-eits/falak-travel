@@ -470,7 +470,8 @@
                             type: 'column'
                         },
                         title: {
-                            text: 'Saleman Ticket Register'
+                            useHTML: true,
+                            text: 'Saleman Ticket Register <span style="color:red; font-weight:bold; margin-right:6px;">( Daily Avg : {{ number_format($avg, 2) }})</span>'
                         },
 
                         subtitle: {
@@ -492,7 +493,7 @@
                                 value: {{ $avg }}, // Target value
                                 width: 2, // Line width
                                 label: {
-                                    text: '{{ number_format($avg, 2) }}', // Label text
+                                    text: '', // Label text
                                     align: 'right',
                                     style: {
                                         color: 'red'
@@ -512,16 +513,10 @@
 
                         series: [
 
-                            //  {
-                            //     name: 'Sale',
-                            //     data: {!! json_encode($ticket_register->pluck('TotalInvoices')) !!},
-
-                            // }, 
-
+                           
                             {
-                                name: 'Net Profit',
-                                data: {!! json_encode($ticket_register->pluck('Service')) !!},
-
+                                showInLegend: false,
+                                data: {!! json_encode($ticket_register->pluck('Service')) !!}
                             }
                         ],
                         credits: {
