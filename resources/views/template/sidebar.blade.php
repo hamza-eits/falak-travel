@@ -93,7 +93,7 @@
                     </ul>
                 </li>
 
- <li>
+                <li>
 
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
 
@@ -118,8 +118,7 @@
                     </ul>
 
                 </li>
-
-
+               
             
 
 
@@ -275,6 +274,26 @@
                     </ul>
 
                 </li>
+                 <li>
+
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+
+                        <i class="mdi mdi-finance"></i>
+
+                        <span key="t-ecommerce">Comparsion Report</span>
+
+                    </a>
+
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li> <a href="{{ URL('/comparison-reports/profit-loss') }}" key="t-products">Profit Loss</a></li>
+                        <li> <a href="{{ URL('/comparison-reports/item-wise-sales') }}" key="t-products">Item Wise Sales<</a></li>
+                        <li> <a href="{{ URL('/comparison-reports/balance-sheet') }}" key="t-products">Balance Sheet</a></li>
+                     
+                    </ul>
+
+                </li>
+
+
 
                     <li>
 
