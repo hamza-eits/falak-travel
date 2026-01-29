@@ -182,18 +182,6 @@
                     <div class="container-fluid">
 
 
-                        <table class="table">
-                            <tr>
-                                <td colspan="2" class="text-center fw-bold">{{ $company[0]->Name }}</td>
-                            </tr>
-                            <tr>
-                                <td style="border-right: 0px !important">{{ $company[0]->Name }}</td>
-                                <td style="border-left: 0px !important; text-align:right">TRN : {{ $company[0]->TRN }}</td>
-                            </tr>
-                        </table>
-
-
-
     <!-- COMPANY -->
 
     <div class="details-grid">
