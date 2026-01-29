@@ -4440,12 +4440,13 @@ $v_cashflow = DB::table('v_cashflow')
     ->orderBy('JournalID', 'asc')   // Sort by ID in ascending order
       ->get();
 
+      $company = DB::table('company')->first();
     //          $pdf = PDF::loadView ('party_ledger1pdf',compact('journal','pagetitle','sql' ,'party')); 
     // //return $pdf->download('pdfview.pdf');
     //    $pdf->setpaper('A4', 'portiate');
     //       return $pdf->stream();
 
-    $pdf = PDF::loadView('reports.party_ledger1pdf', compact('journal', 'pagetitle', 'sql', 'party'));
+    $pdf = PDF::loadView('reports.party_ledger1pdf', compact('journal', 'pagetitle', 'sql', 'party','company'));
     //return $pdf->download('pdfview.pdf');
     $pdf->setpaper('A4', 'landscape');
     return $pdf->stream();
@@ -7834,26 +7835,29 @@ $saleman = $query->get();
 
      $pagetitle = 'Party Sale Ledger';
 
-    $sql = DB::table('journal')
-      ->select(DB::raw('sum(if(ISNULL(Dr),0,Dr)-if(ISNULL(Cr),0,Cr)) as Balance'))
-      ->where('PartyID', $PartyID)
-      ->where('ChartOfAccountID', 110400)
-      // ->where('Date', '<', $StartDate)
-      // ->whereBetween('date', array($StartDate, $EndDate))
-      ->get();
+        // Opening Balance
+        $sql = DB::table('journal')
+            ->selectRaw('SUM(IFNULL(Dr,0) - IFNULL(Cr,0)) AS Balance')
+            ->where('PartyID', $PartyID)
+            ->where('ChartOfAccountID', 110400)
+            ->first();
 
-    $journal = DB::table('v_journal')
-      ->where('PartyID', $PartyID)
-      // ->whereBetween('Date', array($StartDate, $EndDate))
-      ->where('ChartOfAccountID', 110400)
-      ->orderBy('Date')
-      ->get();
+        $sql->Balance = $sql->Balance ?? 0;
 
-    $company = DB::table('company')->get();
+        // Journal Entries
+        $journal = DB::table('v_journal')
+            ->where('PartyID', $PartyID)
+            ->where('ChartOfAccountID', 110400)
+            ->orderBy('Date')
+            ->get();
 
-    $party = DB::table('party')->where('PartyID', $PartyID)->get();
+        // Company Info
+        $company = DB::table('company')->get();
 
-    $sql[0]->Balance = ($sql[0]->Balance == null) ? '0' :  $sql[0]->Balance;
+        // Party Info
+        $party = DB::table('party')
+            ->where('PartyID', $PartyID)
+            ->get();
 
     return View('reports.party_sales_ledger2pdf', compact('journal', 'pagetitle', 'sql', 'party', 'company'));
 
