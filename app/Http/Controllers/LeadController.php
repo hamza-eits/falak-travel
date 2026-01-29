@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use Carbon\Carbon;
 use App\Models\Lead;
-use App\Models\Branch;
-use App\Models\Campaign;
 
+use App\Models\User;
+use App\Models\Branch;
+use App\Models\Status;
+use App\Models\Service;
+use App\Models\Campaign;
+use App\Models\SubService;
 use App\Models\LeadDetails;
 use App\Models\LeadActivity;
-use App\Models\QualifiedStatus;
-use App\Models\Service;
-use App\Models\Status;
-use App\Models\SubService;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Yajra\DataTables\DataTables;
-use Session;
 use Illuminate\Support\Arr; 
+use App\Models\QualifiedStatus;
+use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class LeadController extends Controller
 {
@@ -196,8 +197,6 @@ $today = Carbon::today();
     }
     public function create()
     {
-
-
         try {
             $branches = Branch::all();
             $services = Service::all();
@@ -224,9 +223,21 @@ $today = Carbon::today();
     }
     public function store(Request $request)
     {
-
-         
          try {
+             $validator = Validator::make(
+    $request->all(),
+    [
+        'tel' => 'required|max:255|unique:leads,tel',
+    ],
+    [
+        'tel.unique' => 'This phone number already exists.'
+    ]
+);
+
+if ($validator->fails()) {
+    return back()->withErrors($validator)->withInput();
+}
+
             DB::beginTransaction();
             // $request->validate(
             //     [
@@ -265,10 +276,6 @@ $today = Carbon::today();
 
             );
 
-
- 
-
-
             $data = array(
                             'PartyName' => $request->name, 
                             'Phone' => $request->tel, 
@@ -293,16 +300,8 @@ $today = Carbon::today();
  
             $leadData = Arr::add($leadData, 'partyid', $partyid);
 
-
-    
-
             $id_save= DB::table('leads')->insertGetId($leadData);
             
-            
-            
-
-
-
             DB::commit();
             return redirect('leads')->withSuccess('Lead Created Successfully');
         } catch (\Exception $e) {
@@ -312,11 +311,8 @@ $today = Carbon::today();
         }
     }
 
-
     public function show($id)
     {
-
-
         try {
             $lead = DB::table('leads')->where('id',$id)->first();
             $leadDetails = DB::table('lead_details')->where('lead_id',$id)->get();

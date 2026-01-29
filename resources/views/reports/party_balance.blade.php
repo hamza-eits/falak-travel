@@ -17,13 +17,6 @@
           <!-- enctype="multipart/form-data" -->
           <form action="{{URL('/PartyBalance1')}}" method="post" name="form1" id="form1"> {{csrf_field()}}
 
-
-
-
-
-
-
-
             <div class="col-md-4">
               <div class="mb-1">
                 <label for="basicpill-firstname-input">Parties</label>

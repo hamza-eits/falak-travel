@@ -63,6 +63,7 @@
              @include('template.sidebar')
             <!-- Left Sidebar End -->
             
+            @yield('content')
 
             
             <!-- ============================================================== -->
@@ -77,7 +78,6 @@
                         
                         
                         
-                        @yield('content')
 
                        
                         
