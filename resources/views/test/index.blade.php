@@ -16,7 +16,8 @@
             font-family: Arial, sans-serif;
             background: #ffffff;
             padding: 20px;
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         /* CONTAINER */
@@ -82,20 +83,9 @@
         table {
             width: 100%;
             border-collapse: collapse;
-                        border: 1px solid #ccc;
-
-        }
-       
-
-         #info-table td {
-            padding: 6px;
-            /* border: 1px solid #ccc; */
-            border-color: #ccc;
-            border-style: solid;
-            border: 0px;
         }
 
-        #reportTable th {
+        th {
             background: #0072bc;
             color: #fff;
             font-size: 11px;
@@ -103,7 +93,7 @@
             border: 1px solid #fff;
         }
 
-        #reportTable td {
+        td {
             padding: 6px;
             border: 1px solid #ccc;
         }
@@ -192,89 +182,43 @@
         </div>
 
         <!-- PARTY INFO -->
-        {{-- <div class="info-box">
-            <div class="info-row">
-                <div class="info-col">
-                    Party Name: {{ $party[0]->PartyName }} - {{ $party[0]->PartyID }}
-                </div>
-                <div class="info-col">
-                    Contact: {{ $party[0]->Phone }}
-                </div>
-                <div style="clear: both;"></div>
-            </div>
-
-            <div class="info-row">
-                <div class="info-col">
-                    Period: {{ date('d-m-Y', strtotime(session('StartDate'))) }} to {{ date('d-m-Y', strtotime(session('EndDate')))  }}
-                </div>
-                <div class="info-col">
-                    Report Generated On: {{ date('d M, Y') }}
-                </div>
-                <div style="clear: both;"></div>
-            </div>
-        </div> --}}
-        {{-- <div  style="margin-bottom: 1rem;">
-            <table class="table table-bordered w-100" style="font-size:13px;  background-color:#f2f2f2;">
-                <tr>
-                    <td style="width:10%; border-right:0;">
-                        Party Name:
-                        {{ $party[0]->PartyName }} - {{ $party[0]->PartyID }}
-                    </td>
-                    <td style="width:20%; border-left:0;">
-                        Contact:
-                        {{ $party[0]->Phone }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td style="width:50%; border-right:0;">
-                        Period:
-                        {{ date('d M Y', strtotime(session('StartDate'))) }}
-                        -
-                        {{ date('d M Y', strtotime(session('EndDate'))) }}
-                    </td>
-                    <td style="width:50%; border-left:0;">
-                        Report Generated On:
-                        {{ date('d M Y') }}
-                    </td>
-                </tr>
-            </table>
-        </div> --}}
-        <div  style="text-align: center; width: 80%; margin: 10px auto;">
-            <table id="info-table" class="table table-bordered" style="font-size:13px;  background-color:#f2f2f2;">
-                <tr>
-                    <td style="width: 20%"> Party Name:</td>
-                    <td style="width: 30%">{{ $party[0]->PartyName }} - {{ $party[0]->PartyID }}</td>
-                    <td style="width: 20%">Contact:</td>
-                    <td style="width: 30%"> {{ $party[0]->Phone }}</td>
-                </tr>
-                <tr>
-                    <td> Period:</td>
-                    <td>{{ date('d M,Y', strtotime(session('StartDate'))) }} to {{ date('d M, Y', strtotime(session('EndDate')))  }}</td>
-                    <td>Report Generated On:</td>
-                    <td> {{ date('d M, Y') }}</td>
-                </tr>
-
-               
-            </table>
+        <div class="info-box">
+    <div class="info-row">
+        <div class="info-col">
+            <b>Party Name:</b> {{ $party[0]->PartyName }} - {{ $party[0]->PartyID }}
         </div>
+        <div class="info-col">
+            <b>Contact:</b> {{ $party[0]->Phone }}
+        </div>
+        <div style="clear: both;"></div>
+    </div>
 
+    <div class="info-row">
+        <div class="info-col">
+            <b>Period:</b> {{ session('StartDate') }} TO {{ session('EndDate') }}
+        </div>
+        <div class="info-col">
+            <b>Report Date:</b> {{ date('d-M-Y') }}
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+</div>
 
 
         @if (count($journal) > 0)
 
             <!-- DATA TABLE -->
-            <table id="reportTable" style="width: 100%">
+            <table>
 
                 <thead>
                     <tr>
-                        <th style="width:10%">Date</th>
-                        <th style="width:7%">Voucher NO.</th>
-                        <th style="width:3%">Type</th>
-                        <th style="width:50%">Description</th>
-                        <th style="width:8%">Debit(AED)</th>
-                        <th style="width:8%">Credit(AED)</th>
-                        <th style="width:14%"> Running Balance</th>
+                        <th style="width:5%">Date</th>
+                        <th style="width:7%">VHNO</th>
+                        <th style="width:5%">Type</th>
+                        <th style="width:49%">Description</th>
+                        <th style="width:5%">DR</th>
+                        <th style="width:5%">CR</th>
+                        <th style="width:10%">Balance</th>
                     </tr>
                 </thead>
 
@@ -304,9 +248,9 @@
                         @endphp
 
                         <tr class="{{ $key % 2 == 0 ? 'row-alt' : '' }}">
-                            <td>{{ date('d-M-Y', strtotime($value->Date)) }}</td>
-                            <td class="text-center">{{ $value->VHNO }}</td>
-                            <td class="text-center">{{ $value->JournalType }}</td>
+                            <td>{{ dateformatman($value->Date) }}</td>
+                            <td>{{ $value->VHNO }}</td>
+                            <td>{{ $value->JournalType }}</td>
                             <td>{{ $value->Narration }}</td>
 
                             <td class="text-right">
@@ -335,39 +279,31 @@
                 </tbody>
             </table>
 
-            
+            <!-- SUMMARY -->
+            <table class="summary-table">
+                 <tr class="summary-heading">
+        <td colspan="2">Summary</td>
+    </tr>
+                <tr>
+                    <td width="30%">Total Debit</td>
+                    <td width="70%">{{ number_format($DrTotal, 2) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Credit</td>
+                    <td>{{ number_format($CrTotal, 2) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Net Balance</td>
+                    <td>{{ number_format(abs($balance), 2) }} {{ $balance > 0 ? 'DR' : 'CR' }}</td>
+                </tr>
+
+            </table>
         @else
             <p>No Data Found</p>
         @endif
 
-    </div>
-    <!-- SUMMARY -->
-    <div style="margin-bottom: 1rem; page-break-inside: avoid;">
-        <table class="summary-table">
-            <tr class="summary-heading">
-                <td colspan="2">Summary</td>
-            </tr>
-            <tr>
-                <td width="30%">Total Debit</td>
-                <td width="70%">{{ number_format($DrTotal, 2) }}</td>
-            </tr>
-
-            <tr>
-                <td>Total Credit</td>
-                <td>{{ number_format($CrTotal, 2) }}</td>
-            </tr>
-
-            <tr>
-                <td>Net Balance</td>
-                <td>{{ number_format(abs($balance), 2) }} {{ $balance > 0 ? 'DR' : 'CR' }}</td>
-            </tr>
-
-        </table>
-    </div>
-    <div>
-        <footer>
-           @include('components.report-footer')
-        </footer>
     </div>
 </body>
 

@@ -1,58 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('tmp')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $pagetitle }}</title>
+@push('styles')
+<style>
 
-    <style type="text/css">
-        @page {
-            margin-top: 0.5cm;
-            margin-bottom: 0.5cm;
-            margin-left: 0.5cm;
-            margin-right: 0.5cm;
+    /* ================= BASE ================= */
+
+    body{
+        font-family: Arial, sans-serif;
+        background:#fff;
+        color:#333;
+        font-size:13px;
+    }
+
+    .document-wrapper{
+        width:100%;
+        padding:20px;
+        box-sizing:border-box;
+    }
+
+    /* ================= HEADER ================= */
+
+    .details-grid{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        border:1px solid #cfcfcf;
+        margin-bottom:20px;
+        font-size:13px;
+    }
+
+    .details-item{
+        padding:8px 12px;
+        border-bottom:1px solid #ededed;
+    }
+
+    .details-item.left{ text-align:left; }
+    .details-item.right{ text-align:right; }
+    .details-item.full{
+        grid-column:1 / -1;
+        text-align:center;
+        font-weight:bold;
+        font-size:15px;
+    }
+    .details-item.red{ color:red; }
+    .details-item.label{ font-weight:600; }
+    .details-item.no-border{ border-bottom:none; }
+
+    /* ================= TABLE ================= */
+
+    .table-responsive{
+        width:100%;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        table-layout:fixed;
+    }
+
+    th{
+        background:#0072bc;
+        color:#fff;
+        padding:6px;
+        font-size:11px;
+        text-align:center;
+        border:1px solid #fff;
+        white-space:nowrap;
+    }
+
+    td{
+        padding:5px 6px;
+        border:1px solid #dcdcdc;
+        font-size:12px;
+        line-height:1.35;
+        vertical-align:middle;
+        word-wrap:break-word;
+        overflow-wrap:break-word;
+    }
+
+    tbody tr:nth-child(even){
+        background:#f2f2f2;
+    }
+
+    td:nth-child(5){
+        white-space:normal;
+    }
+
+    .text-right{ text-align:right; }
+    .text-center{ text-align:center; }
+
+    .total-row{
+        background:#d9d9d9 !important;
+        font-weight:bold;
+    }
+
+    /* ================= SUMMARY ================= */
+
+    .summary-wrapper{
+        border:1px solid #cfcfcf;
+        margin-top:20px;
+        max-width:450px;
+    }
+
+    .summary-title{
+        background:#f2f2f2;
+        padding:6px 12px;
+        border-bottom:1px solid #cfcfcf;
+        font-size:14px;
+        font-weight:bold;
+    }
+
+    .summary-row{
+        display:flex;
+        justify-content:space-between;
+        padding:6px 12px;
+        font-size:13px;
+        border-bottom:1px solid #ededed;
+    }
+
+    .summary-row:last-child{
+        border-bottom:none;
+    }
+
+    .summary-label{
+        font-weight:600;
+    }
+
+    /* ================= FOOTER ================= */
+
+    .footer{
+        margin-top:25px;
+        font-size:13px;
+        color:#444;
+    }
+
+    /* ================= PRINT FIXES ================= */
+
+    @media print{
+
+        @page{
+            size:A4;
+            margin:12mm;
         }
 
-
-        table {
-            border-left: 0.01em solid #ccc;
-            border-right: 0;
-            border-top: 0.01em solid #ccc;
-            border-bottom: 0;
-            border-collapse: collapse;
+        .document-wrapper{
+            width:100%;
+            margin:0;
         }
 
-        table td,
-        table th {
-            border-left: 0;
-            border-right: 0.01em solid #ccc;
-            border-top: 0;
-            border-bottom: 0.01em solid #ccc;
-
+        .table-responsive{
+            overflow:visible !important;
         }
 
-        .noborder_table {
-            border-left: 0;
-            border-right: 0;
-            border-top: 0.;
-            border-bottom: 0;
-            border-collapse: collapse;
+        table{
+            page-break-inside:auto;
         }
 
-        .noborder_table td,
-        .noborder_table th {
-            border-left: 0;
-            border-right: 0;
-            border-top: 0;
-            border-bottom: 0;
-        }
-
-
-
-        .style1 {
-            font-size: 22px;
-            font-weight: bold;
+        thead{
+            display:table-header-group;
         }
 
         body,
@@ -115,7 +219,7 @@
     }
 </script>
 
-    <table width="80%" border="1" style="font-size: 10pt;" align="center">
+    <table width="60%" border="1" style="font-size: 10pt;" align="center">
 
         <tr>
             <th bgcolor="#CCCCCC"><strong>VHNO</strong></th>
@@ -147,10 +251,21 @@
                             }
                         @endphp
 
-                        <a href="{{ $url }}" title="" target="_blank">{{ $value->VHNO }}</a>
-
+                <tr>
+                    <td class="text-center">{{ $value->VHNO }}</td>
+                    <td class="text-center">{{ dateformatman($value->Date) }}</td>
+                    <td class="text-center">
+                        {{ DB::table('v_invoice_master')
+                            ->where('InvoiceMasterID',$value->InvoiceMasterID)
+                            ->pluck('FullName')
+                            ->first() }}
                     </td>
-                    <td style="border: 1px solid black; text-align: center" valign="top">{{ dateformatman($value->Date) }}</td>
+                    <td class="text-center">
+                        <a href="{{ URL('/VoucherEdit/'.$value->VoucherMstID) }}" target="_blank">
+                            Edit VH#
+                        </a>
+                    </td>
+                    <td style="border: 1px solid black;" valign="top">{{ dateformatman($value->Date) }}</td>
                     <td style="border: 1px solid black;" valign="top">{{ DB::table('v_invoice_master')->where('InvoiceMasterID',$value->InvoiceMasterID)->pluck('FullName')->first() }}</td>
                     <td style="border: 1px solid black;" valign="top"><a
                             href="{{ URL('/VoucherEdit' . '/' . $value->VoucherMstID) }}" title=""
@@ -173,56 +288,49 @@
                             @endif
                         </div>
                     </td>
-                    <td style="border: 1px solid black;" valign="top" align="right">
-                        {{ $value->Dr == 0 ? '' : number_format($value->Dr, 2) }}</td>
-                    <td style="border: 1px solid black;" valign="top" align="right">
-                        {{ $value->Cr == 0 ? '' : number_format($value->Cr, 2) }}</td>
-                    <td style="border: 1px solid black;" valign="top" align="right">
-
-
-                        <?php
-                        
-                        if (!isset($balance)) {
-                            $balance = $value->Dr - $value->Cr;
-                            /* $balance  =  $sql[0]->Balance + ($value->Dr-$value->Cr); */
-                            $DrTotal = $DrTotal + $value->Dr;
-                            $CrTotal = $CrTotal + $value->Cr;
-                            echo number_format($balance, 2);
-                        } else {
-                            $balance = $balance + ($value->Dr - $value->Cr);
-                            $DrTotal = $DrTotal + $value->Dr;
-                            $CrTotal = $CrTotal + $value->Cr;
-                            echo number_format($balance, 2);
-                        }
-                        ?>
-                        {{ $balance > 0 ? 'DR' : 'CR' }} </td>
                 </tr>
+
             @endforeach
 
-            <tr>
-
-
-                <td style="border: 1px double black; background-color: #CCCCCC;" colspan="5" align="center">
-                    <strong>TOTAL</strong></td>
-                <td style="border: 1px double black; background-color: #CCCCCC;" align="right">
-                    <strong>{{ number_format($DrTotal, 2) }}</strong></td>
-                <td style="border: 1px double black; background-color: #CCCCCC;" align="right">
-                    <strong>{{ number_format($CrTotal, 2) }}</strong></td>
-                <td style="border: 1px double black; background-color: #CCCCCC;" align="right">
-                    <strong>{{ number_format($DrTotal - $CrTotal, 2) }}</strong></td>
+            <tr class="total-row">
+                <td colspan="5" class="text-center">TOTAL</td>
+                <td class="text-right">{{ number_format($DrTotal,2) }}</td>
+                <td class="text-right">{{ number_format($CrTotal,2) }}</td>
+                <td class="text-right">{{ number_format($DrTotal - $CrTotal,2) }}</td>
             </tr>
-        @else
-            <tr>
 
-                <td colspan="7" align="center" style="border: 1px double black; background-color: #CCCCCC;">
-                    <strong>No Date Found</strong></td>
+            </tbody>
 
-            </tr>
-        @endif
+        </table>
+    </div>
 
-    </table>
+    <!-- SUMMARY -->
 
+    <div class="summary-wrapper">
+        <div class="summary-title">Summary</div>
 
-</body>
+        <div class="summary-row">
+            <div class="summary-label">Total Debit</div>
+            <div>AED {{ number_format($DrTotal,2) }}</div>
+        </div>
 
-</html>
+        <div class="summary-row">
+            <div class="summary-label">Total Credit</div>
+            <div>AED {{ number_format($CrTotal,2) }}</div>
+        </div>
+
+        <div class="summary-row">
+            <div class="summary-label">Net Balance</div>
+            <div>AED {{ number_format($DrTotal - $CrTotal,2) }}</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Generated by <b>XTBOOKS – Extensive IT Services</b>
+    </div>
+
+</div>
+</div>
+</div>
+
+@endsection
