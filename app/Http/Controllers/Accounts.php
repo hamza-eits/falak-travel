@@ -3234,7 +3234,7 @@ $v_cashflow = DB::table('v_cashflow')
       ->select('SalemanName', DB::raw('count(*) as TotalInvoices'), DB::raw('sum(Fare) as Fare'), DB::raw('ROUND(sum(Service), 2) as Service'), DB::raw('sum(Total) as Total'), DB::raw('sum(Taxable) as Taxable'), DB::raw('sum(Discount) as Discount'))
       ->whereBetween('Date', array(date('Y-m-1'), date('Y-m-d')))
       ->groupBy('SalemanName')
-      // ->orderBy('Date')
+      ->orderBy('Service')   // 👈 order by sales
       ->get();
 
     $ticket_register = $ticket_register->map(function ($item) {
