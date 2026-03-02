@@ -12,34 +12,36 @@
 */
 
 
-use App\Http\Controllers\User;
-
 use App\Http\Controllers\Accounts;
- use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\AdminDashboard;
+use App\Http\Controllers\AjaxController;;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BranchController;
 
 // CRM CONTROLLERS
-use App\Http\Controllers\AdminDashboard;
-
-use App\Http\Controllers\AjaxController;
-use App\Http\Controllers\ChartOfAccount;
-use App\Http\Controllers\LeadController;
-use App\Http\Controllers\TestController;
- use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\StaffController;
-use App\Http\Controllers\UmrahController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\StatusController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\EstimateController;
-use App\Http\Controllers\SubServiceController;
-use App\Http\Controllers\LeadActivityController;
-use App\Http\Controllers\ComparisonReports\ProfitLossController;
+
+use App\Http\Controllers\ChartOfAccount;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ComparisonReports\BalanceSheetController;
 use App\Http\Controllers\ComparisonReports\ItemWiseSaleController;
+use App\Http\Controllers\ComparisonReports\ProfitLossController;;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\EstimateController;
+use App\Http\Controllers\LeadActivityController;
+use App\Http\Controllers\LeadController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\StatusController;
+use App\Http\Controllers\SubServiceController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\TourBookingController;
+use App\Http\Controllers\TravelBookingController;
+use App\Http\Controllers\UmrahController;
+use App\Http\Controllers\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/search-party', function () {
     $search = request('q');
@@ -509,6 +511,18 @@ Route::get('/ajax_party_list/',[Accounts::class,'ajax_party_list']);
 	 Route::get('/BookingStatus/{id}',[BookingController::class,'BookingStatus']);
 	 Route::get('/BookingView/{id}',[BookingController::class,'BookingView']);
 	 Route::get('/InvoiceDetailList/{itemid}/{startdate}/{enddate}',[Accounts::class,'InvoiceDetailList']);
+
+	 Route::get('/tour-booking', [TourBookingController::class, 'index'])->name('tour-booking.index');
+	 Route::get('/tour-booking/create', [TourBookingController::class, 'create'])->name('tour-booking.create');
+	 Route::post('/tour-booking/save', [TourBookingController::class, 'save']);
+	 Route::get('/tour-booking/edit/{id}', [TourBookingController::class, 'edit'])->name('tour-booking.edit');
+	 Route::put('/tour-booking/update/{id}', [TourBookingController::class, 'update'])->name('tour-booking.update');
+	 Route::delete('/tour-booking/delete/{id}', [TourBookingController::class, 'delete'])->name('tour-booking.delete');
+	 Route::get('/tour-booking/pdf/{id}',          [TourBookingController::class, 'TourBookingPDF']);
+	 Route::get('/tour-booking/pdf/{id}/download', [TourBookingController::class, 'TourBookingPDF']);
+	 Route::get('/tour-booking/pdf-view/{id}', [TourBookingController::class, 'TourBookingPDFView']);
+	 Route::get('/tour-booking/get-payment-info/{id}', [TourBookingController::class, 'getTourBookingPaymentInfo']);
+	 Route::post('/tour-booking/payment-save',          [TourBookingController::class, 'tourBookingPaymentSave']);
 
 Route::get('/query/',[Accounts::class,'query']); 
 
